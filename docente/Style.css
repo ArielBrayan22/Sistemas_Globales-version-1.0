@@ -1,0 +1,174 @@
+
+/*Inicio Estructura del menu con fondos y estilos */
+aside#menu{
+	width: 30%;
+	margin: left;	
+    float: left;
+    background-color: white;
+}
+
+article#cuerpo{
+	float: left;
+	width: 69%;
+    padding: .5%;
+   border-radius: 5px;
+   background-color: white;
+   height: auto;
+}
+
+article#footer{
+	
+	margin: none;
+	float: left;
+	width: 100%;
+	padding-bottom: 1%;
+	
+
+}
+
+div#titulo{
+background-color: #154360;
+color: white;
+width: 90%;
+height: 5%;
+margin: 1%;
+padding: .5%;
+height: 9%;
+
+}
+h2#titulo_Principal{
+	color:#154360;
+}
+
+
+a#titulo{
+list-style-type: none;
+	color :white;
+	text-decoration: none;
+	float: left;
+	width: 100%;
+	padding: .5%;
+
+}
+a#titulo:hover{
+	color:#154360;
+	font-size: 22px;
+	transition:1s;
+}
+
+div#titulo:hover{
+    transition:1s;
+	width: 95%;
+	
+	background-color:#AED6F1;
+	font-size: 20px;
+	color:#154360;
+	text-align: center;
+	padding: 1%;
+	padding-top: 8%;
+}
+
+
+img{
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+
+
+table#tabla
+{
+	margin-top:10%;
+    width: 80%;
+    margin-bottom: 10%;
+   
+}
+td#t{
+	padding-top: 2%;
+	padding-bottom: 2%;
+	padding-left: 1%;
+	width: 20%;
+	background-color:#E5E8E8;
+	color: #154360;
+
+}
+
+.Txt_Input{
+	color: #154360; 
+	height: 25px;
+}
+.Bottom{
+	width: 80%;
+	background-color: red;
+	color:white;
+	border: none;
+	height: 25px;
+	text-align: center;
+}
+
+h3#titulo_plan_global{
+	margin: 0px;
+	padding-top: 0px;
+
+
+}
+table#tabla_Plan_Global{
+
+	border:black solid 1px;
+	padding: 1%;
+	width: 95%;
+}
+
+table#tabla_Plan_Global td{
+	padding: 1%;
+	font-size: 17px;
+}
+
+table#tabla_Plan_Global input{
+	height: 40px;
+	padding: 1%;
+}
+
+.tipo_usuario{
+	width: 90%;
+	height: 30px;
+
+	text-align: center;
+
+}
+table#tabla_plan{
+	border:black solid 1px;
+	padding: 1%;
+	width: 95%;
+}
+
+.boton_direccion{
+	color:blue;
+	background-color: white;
+    border:none;
+}
+
+h3#titulo_footer{
+	margin: none;
+	color:red;
+	padding: none;
+
+}
+
+a#link_footer{
+
+  font-size: 15px;
+  text-decoration: none;
+  color: #154360;
+  padding: 0%;
+  margin: none;
+
+}
+
+.redireccion_salir{
+	text-decoration: none;
+	color:blue;
+	font-size: 18px;
+}
+
+/*Fin Estructura del menu con fondos y estilos */
