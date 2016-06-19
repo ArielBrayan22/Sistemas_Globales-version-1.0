@@ -1,0 +1,69 @@
+
+
+table#planes_globales{
+
+	width: 90%;
+	text-align: center;
+}
+
+table#planes_globales tr#titulo{
+	background: blue;
+	color: white;
+}
+
+table#planes_globales tr#subtitulo{
+	background: white;
+	color: black;
+}
+
+table#tabla_user{
+	background: red;
+	width: 90%;
+	color: white;
+}
+
+table#tabla_Identificacion{
+
+	background:#BDBDBD;
+	width:90%;
+}
+
+table#tabla_Identificacion td{
+
+	padding: .5%;	
+	background: white;
+}
+
+table#tabla_Materias{
+
+    background:#BDBDBD;
+	width:90%;
+	text-align: center;
+}
+
+table#tabla_Materias td{
+
+    padding: .5%;	
+	background: white;
+}
+
+.id_materia{
+	text-align: center;
+	border-style: none;
+
+}
+.input_invi{
+	visibility: hidden;
+}
+
+table#tabla_PG{
+
+	width: 100%;
+}
+table#tabla_PG td {
+	padding: .5%;
+
+}
+.tabla_user{
+	background: red;
+}
