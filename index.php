@@ -38,7 +38,7 @@
 	</aside>
 
 <article id="cuerpo">
-    <center><img src="imagen.JPG"></center>
+    <center><img src="imagenes/slider1.JPG" width="100%" height="70%" ></center>
 
 </article>
 
