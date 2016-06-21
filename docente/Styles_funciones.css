@@ -54,3 +54,15 @@ table#tabla_Materias td{
 .input_invi{
 	visibility: hidden;
 }
+
+.tabla_Cronograma td{
+	
+	padding: .5%;
+	text-align: center;
+	 background:white;
+}
+
+
+.tabla_Cronograma{
+	 background:#BDBDBD;
+}

@@ -4,9 +4,9 @@
 
  if(isset($_SESSION['Alias']))
  {
-    $Alias_User=$_SESSION['Alias']."</br>";
-    $Password_User=$_SESSION['Password']."</br>";
-    $ID_User=$_SESSION['ID']."</br>";
+    $Alias_User=$_SESSION['Alias'];
+    $Password_User=$_SESSION['Password'];
+    $ID_User=$_SESSION['ID'];
   ?> 
 
 <html>
@@ -34,13 +34,24 @@
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
     <div id="titulo"><a id="titulo" href="Operaciones_Manual_de_Usuario.php">Manual de Usuario</a></div>
       
-   <table id="tabla_user">
-      <tr><td></td><td><img src="user.jpg" width="120" height="120"></td></tr>
-      <tr><td>usuario:</td><td>Ariel Brayan</td></tr>
-      <tr><td>cargo:</td><td>Administrador</td></tr>
-      <tr><td>nivel de estudios:</td><td>Prof. Doc. Masc. Ing. de Sistemas</td></tr>
-       <tr><td>codigo:</td><td>2</td></tr>
-
+   
+    <table id="tabla_user">
+      <?php
+           require ("coneccion.php");
+           $query="SELECT * FROM `docente` WHERE ID_Docente=$ID_User";
+          
+           $resultado=mysql_query($query,$link);
+   
+           while($row=mysql_fetch_array($resultado))
+           {
+              echo "<tr><td></td><td><img src='user.jpg' width='120' height='120'></td></tr>";
+              echo "<tr><td>Usuario :</td><td>".$row['Nombre_Completo']." "
+              .$row['Apellido_Paterno']."".$row['Apellido_Materno']."</td></tr>";
+              echo "<tr><td>Cargo :</td><td>Administrador</td></tr>";
+              echo "<tr><td>Nivel de estudios :</td><td>".$row['Profesion']."<td></tr>";
+              echo "<tr><td>login :</td><td>".$row['User_Login']."<td></tr>";
+           }
+       ?>
     </table>
     
   </aside>

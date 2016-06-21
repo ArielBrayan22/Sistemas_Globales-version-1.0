@@ -4,9 +4,9 @@
 
  if(isset($_SESSION['Alias']))
  {
-    $Alias_User=$_SESSION['Alias']."</br>";
-    $Password_User=$_SESSION['Password']."</br>";
-    $ID_User=$_SESSION['ID']."</br>";
+    $Alias_User=$_SESSION['Alias'];
+    $Password_User=$_SESSION['Password'];
+    $ID_User=$_SESSION['ID'];
   ?>  
 <html>
 <head>
@@ -30,13 +30,23 @@
     
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
     <div id="titulo"><a id="titulo" href="Operaciones_Manual_de_Usuario.php">Manual de Usuario</a></div>
-      <table id="tabla_user">
-      <tr><td></td><td><img src="user.jpg" width="120" height="120"></td></tr>
-      <tr><td>usuario:</td><td>Ariel Brayan</td></tr>
-      <tr><td>cargo:</td><td>Administrador</td></tr>
-      <tr><td>nivel de estudios:</td><td>Prof. Doc. Masc. Ing. de Sistemas</td></tr>
-       <tr><td>codigo:</td><td>2</td></tr>
-
+          <table id="tabla_user">
+      <?php
+           require ("coneccion.php");
+           $query="SELECT * FROM `docente` WHERE ID_Docente=$ID_User";
+          
+           $resultado=mysql_query($query,$link);
+   
+           while($row=mysql_fetch_array($resultado))
+           {
+              echo "<tr><td></td><td><img src='user.jpg' width='120' height='120'></td></tr>";
+              echo "<tr><td>Usuario :</td><td>".$row['Nombre_Completo']." "
+              .$row['Apellido_Paterno']."".$row['Apellido_Materno']."</td></tr>";
+              echo "<tr><td>Cargo :</td><td>Administrador</td></tr>";
+              echo "<tr><td>Nivel de estudios :</td><td>".$row['Profesion']."<td></tr>";
+              echo "<tr><td>login :</td><td>".$row['User_Login']."<td></tr>";
+           }
+       ?>
     </table>
     
   </aside>
@@ -160,11 +170,12 @@
 
          if(isset($_POST['btn_Ver_Listado_Materias']))
          {
-           echo "Estamos dentro";
-          $query="SELECT * FROM materia m,carrera c WHERE m.ID_Carrera=c.ID_Carrera";
+           //echo "Estamos dentro";
+          $query="SELECT * FROM materia m,carrera c WHERE m.ID_Carrera=c.ID_Carrera
+                  ORDER BY m.Nivel_Materia ASC";
           
           $resultado=mysql_query($query,$link);
-          echo "  <table id='tabla_PG'>
+          echo "  <table class='tabla_lista_docentes'>
           <tr><td>Materia</td><td>Codigo</td><td>Grupo</td><td>Nivel</td><td>Carga Horaria</td><td>Carrera</td><td></td><td></td></tr>";
 
           while($row=mysql_fetch_array($resultado))
@@ -253,7 +264,7 @@
      if(isset($_POST['btn_Cambiar_Carrera']))
      {
         echo "REALICE EL CAMBIO DE CARRERA A LA MATERIA";
-        echo $Codigo_M=$_POST['txt_ID_M'];
+         $Codigo_M=$_POST['txt_ID_M'];
 
         echo "<form method='post' action=''>
         <table>
@@ -268,14 +279,16 @@
          echo "<option value=".$row['ID_Facultad'].">".$row['Facultad']."</option>";
       }
         
-      echo "</select></td><td><input type='submit' value='Ingresar' name='btn_Facultad_Materia'></td><td></td></tr></table></form>";
+      echo "</select></td>
+           <td><input type='submit' value='Ingresar' name='btn_Facultad_Materia'></td>
+           <td></td></tr></table></form>";
      }
 
 
      if(isset($_POST['btn_Facultad_Materia'])){
          $Seleccion_F=$_POST['select_F'];
         echo "</p>";
-        echo $Codigo_M=$_POST['txt_ID_M'];
+        $Codigo_M=$_POST['txt_ID_M'];
 
        for ($i=0;$i<count($Seleccion_F);$i++) 
        {  $ID_Facultad=$Seleccion_F[$i];} 

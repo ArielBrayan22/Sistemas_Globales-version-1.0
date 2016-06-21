@@ -4,9 +4,9 @@
 
  if(isset($_SESSION['Alias']))
  {
-    $Alias_User=$_SESSION['Alias']."</br>";
-    $Password_User=$_SESSION['Password']."</br>";
-    $ID_User=$_SESSION['ID']."</br>";
+    $Alias_User=$_SESSION['Alias'];
+    $Password_User=$_SESSION['Password'];
+    $ID_User=$_SESSION['ID'];
   ?> 
 
 <html>
@@ -31,15 +31,25 @@
     </div>
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
     <div id="titulo"><a id="titulo" href="Manual_de_Usuario.php">Manual de Usuario</a></div>
-
-      <table id="tabla_user">
-      <tr><td></td><td><img src="user.jpg" width="120" height="120"></td></tr>
-      <tr><td>usuario:</td><td>Ariel Brayan</td></tr>
-      <tr><td>cargo:</td><td>Docente</td></tr>
-      <tr><td>nivel de estudios:</td><td>Ing. de Sistemas</td></tr>
-       <tr><td>codigo:</td><td>2</td></tr>
-
-    </table>
+    
+    <table id="tabla_user">
+     <?php
+           require ("coneccion.php");
+           $query="SELECT * FROM `docente` WHERE ID_Docente=$ID_User";
+          
+           $resultado=mysql_query($query,$link);
+   
+           while($row=mysql_fetch_array($resultado))
+           {
+              echo "<tr><td></td><td><img src='user.jpg' width='120' height='120'></td></tr>";
+              echo "<tr><td>Usuario :</td><td>".$row['Nombre_Completo']." "
+              .$row['Apellido_Paterno']." ".$row['Apellido_Materno']."</td></tr>";
+              echo "<tr><td>Cargo :</td><td>Docente</td></tr>";
+              echo "<tr><td>Nivel de estudios :</td><td>".$row['Profesion']."<td></tr>";
+              echo "<tr><td>login :</td><td>".$row['User_Login']."<td></tr>";
+           }
+       ?>
+       </table>
     
 	</aside>
 
@@ -54,8 +64,9 @@
   
 
    <?php
-
-       $CodigoD=2;
+ 
+     // CODIGO DE NUESTRO DOCENTE
+       $CodigoD=$ID_User;
  
        require("coneccion.php");
 
@@ -110,6 +121,8 @@
          echo "entro ";
           echo $Cod_Materia=$_POST['txtCodM'];
        }
+
+
        
       // BOTON EDITAR MATERIA
 
@@ -155,15 +168,15 @@
           echo " <tr><td>&bull; Correo Electronico: </td><td><input name='txt_Correo' value='".$row['Correo']."' size='40'></td></tr>";
         }
           
-        echo "<tr><td colspan='2'><center><input type='submit' value='Siguiente' name='btn_Justificacion'></center></td></tr></table></form>";
+        echo "<tr><td ><center><input type='submit' value='Editar' name='btn_Editar_Datos_Ident'></center></td>
+        <td><center><input type='submit' value='Siguiente Paso' name='btn_Justificacion'></center></td></tr>
+        </table></form>";
         
        }
 
-       // BOTON JUSTIFICACION
-
-       if(isset($_POST['btn_Justificacion']))
+       //BOTON EDITAR IDENTIFICACION
+       if(isset($_POST['btn_Editar_Datos_Ident']))
        {
-          
           $Carga_H=$_POST['txt_Carga_Horaria'];
           $Nombre=$_POST['txt_Nombre'];
           $Apellido_P=$_POST['txt_Apellido_P'];
@@ -175,13 +188,13 @@
           $Cod_PG=$_POST['txt_Cod_PG'];
           $CodigoD;
 
-         $query1="UPDATE `docente` 
-         SET `Nombre_Completo` = '$Nombre',
-             `Apellido_Paterno` = '$Apellido_P', 
-             `Apellido_Materno` = '$Apellido_M',
-             `Telefono` = '$Telefono',
-             `Correo` = '$Correo', 
-             `Direccion` = '' WHERE `docente`.`ID_Docente` = $CodigoD;";
+           $query1="UPDATE `docente` SET 
+                   `Nombre_Completo` = '$Nombre',
+                   `Apellido_Paterno` = '$Apellido_P', 
+                   `Apellido_Materno` = '$Apellido_M',
+                   `Telefono` = '$Telefono',
+                   `Correo` = '$Correo'
+                    WHERE `docente`.`ID_Docente` = $CodigoD;";
 
          $resultado=mysql_query($query1,$link);
 
@@ -189,96 +202,133 @@
 
          $resultado2=mysql_query($query2,$link);
 
+         echo "SE EDITO CORRECTAMENTE";
 
+         echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='txt_Cod_PG' style='visibility:hidden' value='".$Cod_PG."'>
+               <input type='submit' name='btn_Editar_Materia' value='atras'>
+               </form>";
+
+         }
+
+       // BOTON JUSTIFICACION
+
+       if(isset($_POST['btn_Justificacion']))
+       {
+          $Cod_Materia=$_POST['txt_Cod_M'];
+          $Cod_PG=$_POST['txt_Cod_PG'];
+          $CodigoD;
         echo "JUSTIFICACION</br>";
-
         echo "<form method='post'>
-        <input type='text' name='ID_PG' style='visibility:hidden' value='".$Cod_PG."'></p>
+        <input type='text' name='ID_PG' style='visibility:hidden' value='".$Cod_PG."'>
+        <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_PG."'>
         <textarea cols='100' name='txt_justificacion'></textarea></p>
         <input type='submit' name='btn_Crear_Justificacion' value='Crear Justificaccion'></form>";
 
 
-        $query="SELECT * FROM planglobal pg,justificacion j
-         WHERE  pg.ID_PG=$Cod_PG AND j.ID_PG=pg.ID_PG";
+        $query="SELECT * FROM justificacion j
+         WHERE   j.ID_PG='$Cod_PG'";
 
         $resultado=mysql_query($query,$link);
       
         while ($row=mysql_fetch_array($resultado)) {
+              
               echo "<form method='post' action=''>
               <input type='text' name='ID_PG' style='visibility:hidden' value='".$Cod_PG."'></p>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'></p>
               <textarea name='txt_justificacion' cols='100' rows='18' >".$row['Justificacion'].
               "</textarea></br></p>
                <input type='text' name='ID_J' style='visibility:hidden' value='".$row['Id_Justificacion']."'></p>
                <input type='submit' value='Eliminar' name='btn_Eliminar_Justificacion'>
+               <input type='submit' value='Editar' name='btn_Editar_Justificacion'>
                <input type='submit' value='Siguiente' name='btn_Objetivos'></form>";}
        }
 
-      
+   //BOTON PARA CREAR UN NUEVA JUSTIFICACION 
+
       if(isset($_POST['btn_Crear_Justificacion'])){
+        
         $Texto=$_POST['txt_justificacion'];
-        echo $ID_PG=$_POST['ID_PG'];
+        $Cod_Materia=$_POST['txt_Cod_M'];
+        $ID_PG=$_POST['ID_PG'];
+        $CodigoD;
 
         $query="INSERT INTO `justificacion` (`Id_Justificacion`, `Justificacion`, `ID_PG`) VALUES (NULL,'$Texto','$ID_PG')";
         
         $resultado=mysql_query($query,$link);
-        
+        echo "<script>alert('Justificacion Creada Correctamente');</script>";
 
-         $query="SELECT * FROM planglobal pg,justificacion j
-         WHERE  pg.ID_PG=$ID_PG AND j.ID_PG=pg.ID_PG";
-
-        $resultado=mysql_query($query,$link);
-      
-        while ($row=mysql_fetch_array($resultado)) {
-              echo "<form method='post' action=''>
-              <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'></p>
-              <textarea name='txt_justificacion' cols='100' rows='18' >".$row['Justificacion'].
-              "</textarea></br></p>
-               <input type='text' name='ID_J' style='visibility:hidden' value='".$row['Id_Justificacion']."'></p>
-               <input type='submit' value='Eliminar' name='btn_Eliminar_Justificacion'>
-               <input type='submit' value='Siguiente' name='btn_Objetivos'>
-               </form>";}
-
+         echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='txt_Cod_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Justificacion' value='atras'>
+               </form>";
         }
+
       
       //BOTON ELIMINAR JUSTIFICACION
+
       if(isset($_POST['btn_Eliminar_Justificacion'])){
         $ID_J=$_POST['ID_J'];
+        $Cod_Materia=$_POST['txt_Cod_M'];
+        $ID_PG=$_POST['ID_PG'];
+        $CodigoD;
 
         $query="DELETE FROM `justificacion` WHERE Id_Justificacion='$ID_J'";
         $resultado=mysql_query($query,$link);
         echo "<script>alert('Justificacion Eliminada Correctamente');</script>";
+
+         echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='txt_Cod_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Justificacion' value='atras'>
+               </form>";
       }
+
+      //BOTON EDITAR JUSTIFICACION
+
+      if(isset($_POST['btn_Editar_Justificacion']))
+      {
+        $Texto=$_POST['txt_justificacion'];
+        $Cod_Materia=$_POST['txt_Cod_M'];
+        $ID_PG=$_POST['ID_PG'];
+        $CodigoD;
        
+        
+        $query="UPDATE `justificacion` SET `Justificacion` = '$Texto' WHERE ID_PG='$ID_PG'";
+        $resultado=mysql_query($query,$link);
+        echo "<script>alert('Justificacion Editada Correctamente');</script>";
+
+        echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='txt_Cod_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Justificacion' value='atras'>
+               </form>";
+
+
+      }
+
        // BOTON OBJETIVOS
 
        if(isset($_POST['btn_Objetivos'])){
 
-         echo $ID_PG=$_POST['ID_PG'];
-         $Justificacion=$_POST['txt_justificacion'];
-
-         $query="UPDATE `justificacion` SET `Justificacion` = '$Justificacion' WHERE ID_PG='$ID_PG'";
-         $resultado=mysql_query($query,$link);
-
+        $Cod_Materia=$_POST['txt_Cod_M'];
+        $ID_PG=$_POST['ID_PG'];
+        $CodigoD;
 
         echo "OBJETIVOS</br>";
+           
+        $query="SELECT * FROM objetivo
+                WHERE ID_PG=$ID_PG";
        
-
-     
-        $query="SELECT * FROM planglobal pg,objetivo o, objetivos ob 
-                WHERE pg.ID_PG=$ID_PG AND o.ID_PG=pg.ID_PG AND o.ID_Objetivo=ob.ID_Objetivo";
-
         $resultado=mysql_query($query,$link);
 
-        $query1="SELECT * FROM planglobal pg,objetivo o, objetivos ob 
-                WHERE pg.ID_PG=$ID_PG AND o.ID_PG=pg.ID_PG";
-        $resultado1=mysql_query($query1,$link);
-        $ID_O=mysql_result($resultado1, 0, "ID_Objetivo");
-
-        
         while ($row=mysql_fetch_array($resultado)) {
-            
+                      
             echo "<form method='post' action=''>
                   <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'></p>
+                  <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'></p>
                   <input type='text' style='visibility:hidden' value='".$row['ID_Objetivos']."' name='txt_Cod_O'>
                   <table>
                   <tr><td>
@@ -288,70 +338,87 @@
                   </table></form>";
                 }
 
-      
+            echo "<form method='post'>
+                  <table> 
+                  <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'></p>
+                  <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'></p>
+                  <tr><td><textarea cols='100' rows='3' name='txt_new_Objetivo'></textarea></td>
+                  <td><input type='submit' value='Ingresar' name='btn_Ingresar_Objetivo'></td></tr>
+                  </table>";
 
-        echo "<form method='post'>
-        <table> 
-        <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'></p>
-        <input type='text' name='ID_O' style='visibility:hidden' value='".$ID_O."'></p>
-        <tr><td><textarea cols='100' rows='3' name='txt_new_Objetivo'></textarea></td>
-        <td><input type='submit' value='Ingresar' name='btn_Ingresar_Objetivo'></td></tr>
-                                 
-        </table></form>";
-
-       echo "<form method='post' action=''>
-         <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
-         <input type='submit' value='Siguiente' name='btn_Contenidos'>
-
-         </form>";
-
-
-       }
+             echo "
+                   <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                   <input type='submit' value='Siguiente' name='btn_Contenidos'></form>";
+         }
       
         //BOTON INGRESAR NUEVO OBJETIVO
         
         if(isset($_POST['btn_Ingresar_Objetivo'])){
-         
+        
+         $Cod_Materia=$_POST['txt_Cod_M'];
          $ID_PG=$_POST['ID_PG'];
-         $ID_O=$_POST['ID_O'];
-         $Cod_Objetivo=$_POST['txt_new_Objetivo'];
+         $Txt_Objetivo=$_POST['txt_new_Objetivo'];
 
-         $query="INSERT INTO `objetivos` (`ID_Objetivos`, `ID_Objetivo`, `Texto_Obj`) VALUES (NULL, '$ID_O', '$Cod_Objetivo');";
-         $resultado=mysql_query($query,$link);
-
+         $query="INSERT INTO `objetivo` (`ID_Objetivos`, `ID_PG`, `Texto_Obj`) 
+                 VALUES (NULL, '$ID_PG','$Txt_Objetivo');";
+         $resultado=mysql_query($query,$link);  
          
-        echo "<script>alert('Se Inserto Correctamente');</script>";
+         echo "<script>alert('Se Inserto Correctamente');</script>";
+
+         echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Objetivos' value='atras'>
+               </form>";
 
        }
       
        //BOTON EDITAR OBJETIVOS
 
        if(isset($_POST['btn_Editar_Objetivo'])){
-
+         $Cod_Materia=$_POST['txt_Cod_M'];
          $ID_PG=$_POST['ID_PG'];
          $ID_O=$_POST['txt_Cod_O'];
          $Txt_O=$_POST['txt_Objetivo'];
 
-         $query="UPDATE `objetivos` SET `Texto_Obj` = '$Txt_O' WHERE `objetivos`.`ID_Objetivos`=$ID_O";
+         $query="UPDATE `objetivo` SET `Texto_Obj` = '$Txt_O' WHERE ID_Objetivos=$ID_O";
          $resultado=mysql_query($query,$link);
 
          echo "<script>alert('Se edito Correctamente');</script>";
 
+          echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Objetivos' value='atras'>
+               </form>";
       
        }
 
        //BOTON ELIMINAR LOS OBJETIVOS
 
          if(isset($_POST['btn_Eliminar_Objetivo'])){
-
+         
+         $Cod_Materia=$_POST['txt_Cod_M'];
          $ID_PG=$_POST['ID_PG'];
          $ID_O=$_POST['txt_Cod_O'];
          $Txt_O=$_POST['txt_Objetivo'];
 
-         $query="DELETE FROM `objetivos` WHERE `objetivos`.`ID_Objetivos`=$ID_O";
+         $query="DELETE FROM objetivo WHERE ID_Objetivos=$ID_O";
          $resultado=mysql_query($query,$link);
          echo "<script>alert('Se elimino Correctamente');</script>";
-       }
+
+         echo "<form method='post'>
+               <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' name='btn_Objetivos' value='atras'>
+               </form>";
+       }   
+
+
+
+
+
+
 
       // BOTON DE CONTENIDOS
 
@@ -359,7 +426,9 @@
        {
          echo "CONTENIDOS";
          
-         echo $ID_PG=$_POST['ID_PG'];
+          $ID_PG=$_POST['ID_PG'];
+          //$Cod_Materia=$_POST['txt_Cod_M'];
+         
          //BOTON DE CREACION DE UNIDAD
          echo "<form method='post' action=''>
                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
@@ -451,44 +520,110 @@
              }
 
              echo " <form method='post' action=''>
+
                     <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
-                    <input type='submit' name='btn_Siguiente_Metodologias' value='Siguiente'>
+                    <input type='submit' name='btn_Metodologias' value='Siguiente'>
                     </form>";
          }
 
+        //BOTON INSERTAR UNIDAD
 
-         //BTN EDITAR UNIDAD
+       if(isset($_POST['btn_Ingresar_Contenidos']))
+       {
+          $ID_PG=$_POST['ID_PG'];
 
-        if(isset($_POST['btn_Editar_Unidad']))
-         {
-           echo $text_U=$_POST['txt_Unidad'];
-           echo "</p>";
-           echo $ID_Unidad=$_POST['ID_Unidad'];
-           echo "</p>";
-           echo $ID_PG=$_POST['ID_PG'];
-           echo $ID_Numero_U=$_POST['txt_Numero_U'];
-           
-           $query="UPDATE `unidad` SET `Unidad` = '$text_U', `Numero_Unidad` = '$ID_Numero_U' 
-                   WHERE `unidad`.`ID_Unidad` = $ID_Unidad;";
-           $resultado=mysql_query($query,$link);
+          echo "INSERTAR NUEVA UNIDAD";
+
+          echo "<form method='post' action=''>
+          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+          <table>
+          <tr><td>Unidad :</td><td><textarea name='txt_Unidad' cols='80' rows='3' ></textarea></td></tr>
+          <tr><td>Numero de la Unidad :</td><td><input type='text'  name='txt_Numero_U' size='5'></td></tr>
+          <tr><td>Duracion en Horas :</td><td><input type='text'  name='txt_Cant_Hrs' size='5'> (hrs)</td></tr>
+          <tr><td>Duracion en Semanas :</td><td><input type='text'  name='txt_Num_Sem' size='5'> (semanas)</td></tr>
+
+          <tr><td><input type='submit' value='Ingresar' name='btn_Contenidos_Nuevos'></td></tr>
+          </tr></table></form>";
 
            echo "<form method='post'>
                 <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' name='btn_Contenidos' value='atras'>
                 </form>";
 
+        }  
+
+         //BOTON INSERTAR OBJETIVOS Y CONTENIDOS
+
+        if(isset($_POST['btn_Contenidos_Nuevos'])){
+         
+          $Txt_Unidad=$_POST['txt_Unidad'];
+          $Num_U=$_POST['txt_Numero_U'];
+          $ID_PG=$_POST['ID_PG'];
+          $txt_Cant_Hrs=$_POST['txt_Cant_Hrs'];
+          $txt_Num_Sem=$_POST['txt_Num_Sem'];
+
+          echo "UNIDAD : ".$Txt_Unidad."</p> NUMERO :".$Num_U;
+
+         $query="INSERT INTO `unidad` (`ID_Unidad`, `Unidad`, `Numero_Unidad`, `Hora_Academica`, `Cant_Semana`, `ID_PG`) 
+                  VALUES (NULL, '$Txt_Unidad', '$Num_U', '$txt_Cant_Hrs', '$txt_Num_Sem', '$ID_PG');";
+
+        
+         $resultado=mysql_query($query,$link);
+
+         $query="SELECT ID_Unidad FROM `unidad` WHERE Numero_Unidad=$Num_U AND ID_PG=$ID_PG";
+         $resultado=mysql_query($query,$link);
+         $ID_U=mysql_result($resultado, 0, "ID_Unidad");
+
+         echo "<form method='post' action=''>
+          <input type='text' name='ID_Unidad' style='visibility:hidden' value='".$ID_U."'>
+          <input type='text' name='txt_Unidad' style='visibility:hidden' value='".$Txt_Unidad."'>
+          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+          <input type='submit' name='btn_Agregar_Objetivos' value='Ingresar Objetivos'>
+          <input type='submit' name='btn_Ingresar_Sub_Contenidos' value='Ingresar Contenidos'>
+          </form>";
+
+          echo "<form method='post'>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' name='btn_Contenidos' value='atras'>
+                </form>";
+        }  
+
+         //BTN EDITAR UNIDAD
+
+        if(isset($_POST['btn_Editar_Unidad']))
+         {
+             //ECHO "Estoy en Editar Unidad";
+           $ID_PG=$_POST['ID_PG'];
+           $ID_Unidad=$_POST['ID_Unidad'];
+           $text_U=$_POST['txt_Unidad'];
+           $ID_Numero_U=$_POST['txt_Numero_U'];
+           
+           $query="UPDATE `unidad` SET `Unidad` = '$text_U', `Numero_Unidad` = '$ID_Numero_U' 
+                   WHERE `unidad`.`ID_Unidad` = $ID_Unidad;";
+           $resultado=mysql_query($query,$link);
+
+          echo "<form method='post' action=''>
+          <input type='text' name='ID_Unidad' style='visibility:hidden' value='".$ID_Unidad."'>
+          <input type='text' name='txt_Unidad' style='visibility:hidden' value='".$text_U."'>
+          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+          <input type='submit' name='btn_Agregar_Objetivos' value='Ingresar Objetivos'>
+          <input type='submit' name='btn_Ingresar_Sub_Contenidos' value='Ingresar Contenidos'>
+          </form>";
+
+           echo "<form method='post'>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' name='btn_Contenidos' value='atras'>
+                </form>";
          }
 
          //BOTON ELIMINAR UNIDAD
 
          if(isset($_POST['btn_Eliminar_Unidad']))
          {
-           echo $text_U=$_POST['txt_Unidad'];
-           echo "</p>";
-           echo $ID_Unidad=$_POST['ID_Unidad'];
-           echo "</p>";
-           echo $ID_PG=$_POST['ID_PG'];
-           echo $ID_Numero_U=$_POST['txt_Numero_U'];
+            $text_U=$_POST['txt_Unidad'];
+            $ID_Unidad=$_POST['ID_Unidad'];
+            $ID_PG=$_POST['ID_PG'];
+            $ID_Numero_U=$_POST['txt_Numero_U'];
 
            $query="SELECT * FROM `seccion_objetivo` WHERE ID_Unidad=$ID_Unidad";
            $resultado=mysql_query($query,$link);
@@ -504,20 +639,17 @@
                 <input type='submit' name='btn_Contenidos' value='atras'>
                 </form>";
 
+           echo "<script>alert('Eliminacion de Unidad Correctamente');</script>";
          }
-
-
 
         //BOTON EDITAR OBJETIVOS
 
          if(isset($_POST['btn_Editar_Objetivos_Unidad']))
          {
           
-          echo $ID_Objetivo_U=$_POST['ID_Objetivo_U'];
-        
-          echo $ID_PG=$_POST['ID_PG'];
-         
-          echo $txt_Obj_U=$_POST['txt_Objetivo'];
+          $ID_Objetivo_U=$_POST['ID_Objetivo_U'];
+          $ID_PG=$_POST['ID_PG'];
+          $txt_Obj_U=$_POST['txt_Objetivo'];
 
           $query="UPDATE `seccion_objetivo` SET `Objetivo` = '$txt_Obj_U' WHERE `seccion_objetivo`.`ID_Objetivo` = $ID_Objetivo_U;";
           $resultado=mysql_query($query,$link);
@@ -545,12 +677,13 @@
                 <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' name='btn_Contenidos' value='atras'>
                 </form>";
+
+           echo "<script>alert('Eliminacion de Objetivo Correctamente');</script>";
          }
 
 
         //BOTON EDITAR CONTENIDOS
     
-
          if(isset($_POST['btn_Editar_Contenido_U']))
          {
            
@@ -571,16 +704,14 @@
            
          }
 
-         //BOTON ELIMINAR CONTENIDIO UNIDAD
+         //BOTON ELIMINAR CONTENIDIO DE LA UNIDAD
          
 
          if(isset($_POST['btn_Eliminar_Contenido_U']))
          {
            
            $ID_Cont_U=$_POST['ID_Cont_U'];
-
            $text_Cont_U=$_POST['txt_Contenido'];
-        
            $ID_PG=$_POST['ID_PG'];
          
           $query="DELETE FROM `seccion_contenido` WHERE `seccion_contenido`.`ID_Contenido` = $ID_Cont_U;";
@@ -590,65 +721,10 @@
                 <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' name='btn_Contenidos' value='atras'>
                 </form>";
-
-           
+           echo "<script>alert('Eliminacion de Contenido Correctamente');</script>";
          }
 
-     //BOTON INSERTAR UNIDAD
-
-       if(isset($_POST['btn_Ingresar_Contenidos']))
-       {
-          echo $ID_PG=$_POST['ID_PG'];
-
-          echo "INSERTAR NUEVA UNIDAD";
-
-          echo "<form method='post' action=''>
-          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
-          <table>
-          <tr><td><textarea name='txt_Unidad' cols='80' rows='3' ></textarea></td>
-          <td>Unidad :<input type='text'  name='txt_Numero_U' size='5'></td>
-
-          <td><input type='submit' value='Ingresar' name='btn_Contenidos_Nuevos'></td>
-          </tr></table></form>";
-
-           echo "<form method='post'>
-                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
-                <input type='submit' name='btn_Contenidos' value='atras'>
-                </form>";
-
-        }  
-  
-      //BOTON INSERTAR OBJETIVOS Y CONTENIDOS
-
-        if(isset($_POST['btn_Contenidos_Nuevos'])){
-         
-         echo $Txt_Unidad=$_POST['txt_Unidad'];
-         echo $Num_U=$_POST['txt_Numero_U'];
-         echo $ID_PG=$_POST['ID_PG'];
-
-         $query="INSERT INTO `unidad` (`ID_Unidad`, `Unidad`, `Numero_Unidad`, `ID_PG`) 
-                 VALUES (NULL, ' $Txt_Unidad', '$Num_U', '$ID_PG');";
-
-         $resultado=mysql_query($query,$link);
-
-         $query="SELECT ID_Unidad FROM `unidad` WHERE Numero_Unidad=$Num_U AND ID_PG=$ID_PG";
-         $resultado=mysql_query($query,$link);
-         $ID_U=mysql_result($resultado, 0, "ID_Unidad");
-        
-         echo "</P>el ID DE UNIDAD ".$ID_U;
-
-         echo "<form method='post' action=''>
-          <input type='text' name='ID_Unidad' style='visibility:hidden' value='".$ID_U."'>
-          <input type='text' name='txt_Unidad' style='visibility:hidden' value='".$Txt_Unidad."'>
-          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
-          <input type='submit' name='btn_Agregar_Objetivos' value='Ingresar Objetivos'>
-          <input type='submit' name='btn_Ingresar_Sub_Contenidos' value='Ingresar Contenidos'>
-          </form>";
-
-
-
-        }  
-
+     
 
         //BOTTON INGRESAR OBJETIVOS
         if(isset($_POST['btn_Agregar_Objetivos'])){
@@ -751,7 +827,7 @@
           $ID_Unidad=$_POST['ID_Unidad'];// id de la unidad
           $ID_PG=$_POST['ID_PG'];       
           $Unidad=$_POST['txt_Unidad']; //titulo de la unidad
-          echo $Contendio=$_POST['txt_Contenido'];
+          $Contendio=$_POST['txt_Contenido'];
 
            $query="INSERT INTO `seccion_contenido` (`ID_Contenido`, `Contenido`, `ID_Unidad`) 
                    VALUES (NULL, '$Contendio','$ID_Unidad');";
@@ -769,206 +845,362 @@
         }
 
 
+
+
+
+
        // BTON METODOLOGIAS
        
-       if(isset($_POST['btn_Siguiente_Metodologias']))
+       if(isset($_POST['btn_Metodologias']))
        {
+            $ID_PG=$_POST['ID_PG'];
+
             echo "METODOLOGIAS</p>";
 
             echo "<form method='post' action=''>
+            <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
             <input type='submit' name='btn_Ingresar_Metodologias' value='Ingresar Nueva Metodologia'></p>
                  </form>";
-            $Cod_PG=3;
-            $query="SELECT * FROM planglobal pg,metodologia m
-             WHERE pg.ID_PG=m.ID_PG";
+            
+            $query="SELECT * FROM metodologia
+             WHERE ID_PG=$ID_PG";
             $resultado=mysql_query($query,$link);
         
             while ($row=mysql_fetch_array($resultado)) {
                 echo "<form method='post' action=''>
-                <textarea cols='100' rows='5'  name='txt_Metodologia'>".$row['Metodologia']."</textarea><input type='submit' name='btn_Editar_Metodologia' value='Editar'></p></form>";
+                     <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                     <input type='text' name='ID_Metodologia' style='visibility:hidden' value='".$row['ID_Metod']."'>
+                      <textarea cols='100' rows='5'  name='txt_Metodologia'>".
+                      $row['Metodologia']."</textarea>
+                      <input type='submit' name='btn_Editar_Metodologia' value='Editar'>
+                      <input type='submit' name='btn_Eliminar_Metodologia' value='Eliminar'>
+                      </form>";
            }
            //aniadimos el boton siguiente
 
            echo "<form method='post'>
-               <input type='submit' value='Siguiente' name='btn_Cronograma'>
-            </form>";
+                 <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                 <input type='submit' value='Siguiente' name='btn_Cronograma'>
+                 </form>";
             
        }
 
+     //BOTON EDITAR METODOLOGIA
+
        if(isset($_POST['btn_Editar_Metodologia'])){
-         echo $m=$_POST['txt_Metodologia'];
+
+           $txt_Metodologia=$_POST['txt_Metodologia'];
+           $ID_PG=$_POST['ID_PG'];
+           $ID_Metod=$_POST['ID_Metodologia'];
+
+           $query="UPDATE metodologia 
+                   SET Metodologia = '$txt_Metodologia', ID_PG = '$ID_PG' 
+                   WHERE ID_Metod = $ID_Metod;";
+           $resultado=mysql_query($query,$link);
+
          echo "<script>alert('Edificion Realizada');</script>";
          
          echo "<form method='post' action=''>
-               
-               <input type='submit' value='atras' name='btn_Siguiente_Metodologias'>
-             </form>";
-
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' value='atras' name='btn_Metodologias'>
+               </form>";
        }
+
+         if(isset($_POST['btn_Eliminar_Metodologia'])){
+
+           $ID_PG=$_POST['ID_PG'];
+           $ID_Metod=$_POST['ID_Metodologia'];
+
+           $query="DELETE FROM `metodologia` WHERE ID_Metod = $ID_Metod";
+
+           $resultado=mysql_query($query,$link);
+
+           echo "<script>alert('Edificion Realizada');</script>";
+         
+            echo "<form method='post' action=''>
+                  <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                  <input type='submit' value='atras' name='btn_Metodologias'>
+                 </form>";
+       }
+
+       //BOTON INGRESAR METODOLOGIA
 
        if(isset($_POST['btn_Ingresar_Metodologias'])){
-             echo "INGRESAR METODOLOGIA </P>";
-
+             echo "INGRESAR METODOLOGIA</P>";
+             $ID_PG=$_POST['ID_PG'];
              echo "<form method='post' action=''>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                <textarea  cols='100' rows='5' name='txt_Metodologia'></textarea>
-               <input type='submit' value='Ingresar' name='btn_ingresar_Metod'></p>
-               <input type='submit' value='atras' name='btn_Siguiente_Metodologias'>
+               <input type='submit' value='Ingresar Nueva' name='btn_Insertar_Metodologias'></p>
+               <input type='submit' value='atras' name='btn_Metodologias'>
              </form>";
        }
 
-       if(isset($_POST['btn_ingresar_Metod'])){
+       if(isset($_POST['btn_Insertar_Metodologias'])){
+        
+           $ID_PG=$_POST['ID_PG'];
+           $txt_Metodologia=$_POST['txt_Metodologia'];
 
-        echo "<form method='post'>
+           $query="INSERT INTO `metodologia`(`ID_Metod`, `Metodologia`, `ID_PG`) 
+           VALUES (NULL,'$txt_Metodologia','$ID_PG')";
+           $resultado=mysql_query($query,$link);
+
+           echo "<script>alert('Metodologia Insertada Correctamente');</script>";
+           echo "<form method='post'>
+          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
           <input type='submit' value='atras' name='btn_Ingresar_Metodologias'></form>";
        }
 
+     //BOTON CRONOGRAMA
 
        if(isset($_POST['btn_Cronograma'])){
-        echo "CRONOGRAMA </P>";
-        $ID_PG=3;
+            
+          $ID_PG=$_POST['ID_PG'];
+          echo "CRONOGRAMA </P>";
 
-          $query="SELECT * FROM planglobal pg, cronograma c
-             WHERE pg.ID_PG=c.ID_PG";
-            $resultado=mysql_query($query,$link);
-            echo "<table><tr><td>Unidad</td><td>Duracion (Horas Academicas)</td><td>Duracion en Semanas</td></tr></table>";
+          $query="SELECT * FROM unidad 
+                  WHERE ID_PG='$ID_PG'";
+
+          $resultado=mysql_query($query,$link);
+          echo "<table class='tabla_Cronograma'>
+                <tr><td>Unidad</td><td>Duracion (Horas Academicas)</td><td>Duracion en Semanas</td><td></td></tr>";
         
             while ($row=mysql_fetch_array($resultado)) {
                 echo "<form method='post' action=''>
-                <table>
-                <tr><td><input size='70' type='text' name='txt_Unidad' value='".$row['Unidad']."'> </td> 
-                <td><input size='5' type='text' name='txt_Horas' value='".$row['Duracion_Horas']."'> </td> 
-                <td><input size='5' type='text' name='txt_Semanas' value='".$row['Duracion_Semnas']."'> </td> 
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='text' name='ID_Unidad' style='visibility:hidden' value='".$row['ID_Unidad']."'>
+                <tr><td>".$row['Unidad']."</td> 
+                <td><input size='5' type='text' name='txt_Horas' value='".$row['Hora_Academica']."'></td> 
+                <td><input size='5' type='text' name='txt_Semanas' value='".$row['Cant_Semana']."'></td> 
                 <td><input type='submit' name='btn_Editar_Cronograma' value='Editar'></td></tr>
-                </table></form>";
+                </form>";
             }
-        
-           echo "<form method='post' action=''>
-              
-               <input type='submit' value='Siguiente' name='btn_Siguiente_Criterios'>
-             </form>";
 
+          echo "</table>";
+        
+          echo "<form method='post' action=''>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' value='Siguiente' name='btn_Criterios'>
+                </form>";
          }
-        
+      //BOTON CRONOGRAMA EDITADO
 
-   if(isset($_POST['btn_Editar_Cronograma'])){
+      if(isset($_POST['btn_Editar_Cronograma'])){
+       
+       
+       $ID_PG=$_POST['ID_PG'];
+       $ID_Unidad=$_POST['ID_Unidad'];
+       $txt_Horas=$_POST['txt_Horas'];
+       $txt_Semanas=$_POST['txt_Semanas'];
 
-       echo $txt_Unidad=$_POST['txt_Unidad'];
-       echo $txt_Horas=$_POST['txt_Horas'];
-       echo $txt_Semanas=$_POST['txt_Semanas'];
+       $query="UPDATE `unidad` SET `Hora_Academica` = '$txt_Horas', `Cant_Semana` = '$txt_Semanas' 
+               WHERE ID_Unidad = $ID_Unidad;";
+       $resultado=mysql_query($query,$link);
+
        echo "<script>alert('Edicion Correcta');</script>";
        echo "<form method='post' action=''>
-               
-               <input type='submit' value='atras' name='btn_Cronograma'>
+             <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+             <input type='submit' value='atras' name='btn_Cronograma'>
              </form>";
 
        }
 
+
        //BOTON CRITERIOS 
        
-
-        if(isset($_POST['btn_Siguiente_Criterios'])){
-           $ID_PG=3;
+        if(isset($_POST['btn_Criterios'])){
+         $ID_PG=$_POST['ID_PG'];
       
          echo "CRITERIOS DE EVALUACION </p>";
          echo "<form method='post' action=''>
-               
-        <input type='submit' value='Insertar Nuevo Criterio' name='btn_Nuevo Criterio_Evaluacion'></form>";
+               <textarea cols='100' rows='5' name='txt_Criterio'></textarea></p>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' value='Insertar Nuevo Criterio' name='btn_Insertar_Criterio_Evaluacion'>
+               </form>";
          
          $query="SELECT * 
-                 FROM planglobal pg, criterio_evaluacion c, criterio cs
-                 WHERE pg.ID_PG=c.ID_PG AND c.Id_Criterio=cs.ID_Criterio_Evaluacion";
+                 FROM criterio c
+                 WHERE c.ID_PG='$ID_PG'";
             $resultado=mysql_query($query,$link);
-            echo "<table><tr><td>Unidad</td><td>Duracion (Horas Academicas)</td><td>Duracion en Semanas</td></tr></table>";
+            
         
             while ($row=mysql_fetch_array($resultado)) {
                 echo "<form method='post' action=''>
                 <table>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='text' name='ID_Criterio' style='visibility:hidden' value='".$row['ID_Criterio']."'>
                 <tr><td><textarea cols='100' rows='5' name='txt_Criterio_Evaluacion' >".$row['Criterio']."</textarea></td> 
-             
-                <td><input type='submit' name='btn_Editar_Criterio' value='Editar'></td></tr>
+                <td><input type='submit' name='btn_Editar_Criterio' value='Editar'></td>
+                <td><input type='submit' name='btn_Eliminar_Criterio' value='Eliminar'></td></tr>
                 </table></form>";
             }   
 
             echo "<form method='post' action=''>
+            <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' value='Siguiente' name='btn_Siguiente_Bibliografia'>
-                </form>" ;    
+                </form>";    
        }
+
        //BOTON EDITAR CRITERIO
 
        if(isset($_POST['btn_Editar_Criterio'])){
-          echo $Criterio=$_POST['txt_Criterio_Evaluacion'];
+
+           $Criterio=$_POST['txt_Criterio_Evaluacion'];
+           $ID_PG=$_POST['ID_PG'];
+           $ID_Criterio=$_POST['ID_Criterio'];
+
+          $query="UPDATE `criterio` SET `Criterio` = '$Criterio', `ID_PG` = '$ID_PG' 
+                  WHERE  `criterio`.`ID_Criterio` = $ID_Criterio;";
+          $resultado=mysql_query($query,$link);
+
           echo "<script>alert('Edicion Correcta');</script>";
           
           echo "<form method='post' action=''>
-                <input type='submit' value='atras' name='btn_Siguiente_Criterios'>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' value='atras' name='btn_Criterios'>
                 </form>";
        }
+
+       //BOTON ELIMINAR CRITERIO
+
+        if(isset($_POST['btn_Eliminar_Criterio'])){
+
+           $Criterio=$_POST['txt_Criterio_Evaluacion'];
+           $ID_PG=$_POST['ID_PG'];
+           $ID_Criterio=$_POST['ID_Criterio'];
+
+          $query="DELETE FROM `criterio` WHERE `criterio`.`ID_Criterio` = $ID_Criterio";
+          $resultado=mysql_query($query,$link);
+
+          echo "<script>alert('Se Elimino Correctamente');</script>";
+          
+          echo "<form method='post' action=''>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' value='atras' name='btn_Criterios'>
+                </form>";
+       }
+
+
+       //BOTON INSERTAR CRITERIO DE EVALUACION
+       if(isset($_POST['btn_Insertar_Criterio_Evaluacion'])){
+         echo $ID_PG=$_POST['ID_PG'];
+         echo $txt_Criterio=$_POST['txt_Criterio'];
+
+         $query="INSERT INTO `criterio` (`ID_Criterio`, `Criterio`, `ID_PG`) 
+                 VALUES (NULL, '$txt_Criterio', '$ID_PG');";
+
+         $resultado=mysql_query($query,$link);       
+
+          echo "<form method='post' action=''>
+               <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+               <input type='submit' value='atras' name='btn_Criterios'>
+               </form>";
+       }
+
 
        //BOTON BIBLIOGRAFIAS
 
         if(isset($_POST['btn_Siguiente_Bibliografia'])){
          
-         ECHO "BIBLIOGRAFIAS </P>";
+         $ID_PG=$_POST['ID_PG'];
+         echo "BIBLIOGRAFIAS </br>";
 
           echo "<form method='post' action=''>
-               
-        <input type='submit' value='Insertar Nuevo Bibliografia' name='btn_Nueva_Bibliografia'></form>";
-         
+          <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'></br>
+          <textarea name='txt_Bibliografia' cols='100' rows='5'></textarea></p>    
+          <input type='submit' value='Insertar Nuevo Bibliografia' name='btn_Nueva_Bibliografia'>
+          </form>";
+          
          $query="SELECT * 
-                 FROM planglobal pg,bibliografia b
-                 WHERE pg.ID_PG=b.ID_PG";
-            $resultado=mysql_query($query,$link);
-            echo "<table><tr><td>Unidad</td><td>Duracion (Horas Academicas)</td><td>Duracion en Semanas</td></tr></table>";
+                 FROM bibliografia 
+                 WHERE ID_PG='$ID_PG'";
+         $resultado=mysql_query($query,$link);
+
         
             while ($row=mysql_fetch_array($resultado)) {
                 echo "<form method='post' action=''>
                 <table>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='text' name='ID_Bibliografia' style='visibility:hidden' value='".$row['Id_Bibliografia']."'>
                 <tr><td><textarea cols='100' rows='3' name='txt_Bibliografia' >".$row['texto']."</textarea></td> 
-             
-                <td><input type='submit' name='btn_Editar_Bibliografia' value='Editar'></td></tr>
+                <td><input type='submit' name='btn_Editar_Bibliografia' value='Editar'></td>
+                <td><input type='submit' name='btn_Eliminar_Bibliografia' value='Eliminar'></td></tr>
                 </table></form>";
             }   
 
             echo "<form method='post' action=''>
-                <input type='submit' value='Terminar Editado' name='btn_Materias'>
+                  <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                  <input type='submit' value='Terminar Editado' name='btn_Terminar_Editado'>
                 </form>" ;      
        }
 
        //BOTON INGRESO DE BIBLIOGRAFIAS
       
-        if(isset($_POST['btn_Nueva_Bibliografia'])){
-          
-         echo "<form method='post' action=''>
-               <textarea  cols='100' rows='3' name='txt_Bibliografia_Nueva'></textarea>
-               <input type='submit' value='Ingresar' name='btn_Ingresar_Bibliografia'></p>
-              
-             </form>";
-          
-          echo "<form method='post' action=''>
+        if(isset($_POST['btn_Nueva_Bibliografia']))
+        {  
+           $ID_PG=$_POST['ID_PG'];
+           $ID_txt_bibiografia=$_POST['txt_Bibliografia'];
+
+           $query="INSERT INTO `bibliografia` (`Id_Bibliografia`, `texto`, `ID_PG`) 
+                   VALUES (NULL,'$ID_txt_bibiografia', '$ID_PG');";
+                     $resultado=mysql_query($query,$link);
+
+           echo "<script>alert('Datos Ingresados Correctamente');</script>";
+
+           echo "<form method='post' action=''>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' value='atras' name='btn_Siguiente_Bibliografia'>
-                </form>";
-       }
-       // BOTON INGRESO DE DATOS BIBLIOGRAFICOS
-
-       if(isset($_POST['btn_Ingresar_Bibliografia']))
-       { 
-           echo $b=$_POST['txt_Bibliografia_Nueva'];
-
-          echo "<script>alert('Datos Ingresados Correctamente');</script><form method='post' action=''>
-                <input type='submit' value='atras' name='btn_Nueva_Bibliografia'>
                 </form>";
        }
 
        //BOTON EDITADO DE LAS BIBLIOGRAFIAS
 
         if(isset($_POST['btn_Editar_Bibliografia'])){
-          echo $b=$_POST['txt_Bibliografia'];
+         
+          $Bibliografia=$_POST['txt_Bibliografia'];
+          $ID_Bibliografia=$_POST['ID_Bibliografia'];
+          $ID_PG=$_POST['ID_PG'];
+             
+          $query="UPDATE bibliografia SET ID_PG= '$ID_PG', texto='$Bibliografia' 
+           WHERE Id_Bibliografia = $ID_Bibliografia";
+
+          $resultado=mysql_query($query,$link);
+
           echo "<script>alert('Edicion Correcta');</script>";
           
           echo "<form method='post' action=''>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
                 <input type='submit' value='atras' name='btn_Siguiente_Bibliografia'>
                 </form>";
        }
+
+       // BOTON ELIMINAR BIBLIOGRAFIA
+     
+        if(isset($_POST['btn_Eliminar_Bibliografia'])){
+           $Bibliografia=$_POST['txt_Bibliografia'];
+           $ID_Bibliografia=$_POST['ID_Bibliografia'];
+           $ID_PG=$_POST['ID_PG'];
+             
+          $query="DELETE FROM `bibliografia` 
+                  WHERE `bibliografia`.`Id_Bibliografia` =$ID_Bibliografia";
+
+          $resultado=mysql_query($query,$link);
+
+          echo "<script>alert('Eliminado Correctamente');</script>";
+          
+          echo "<form method='post' action=''>
+                <input type='text' name='ID_PG' style='visibility:hidden' value='".$ID_PG."'>
+                <input type='submit' value='atras' name='btn_Siguiente_Bibliografia'>
+                </form>";
+        }
+
+        if(isset($_POST['btn_Terminar_Editado']))
+        {  
+           $ID_PG=$_POST['ID_PG'];
+           $CodigoD;
+           echo "<script>alert('Llenado o Editado Terminado');</script>";
+          
+         }
 
 
     ?>

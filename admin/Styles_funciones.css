@@ -67,3 +67,22 @@ table#tabla_PG td {
 .tabla_user{
 	background: red;
 }
+
+.tabla_lista_docentes{
+	background: #BDBDBD;
+}
+
+.tabla_lista_docentes td{
+	padding: .5%;
+	background: white;
+	
+}
+
+.tabla_PG{
+	background: #BDBDBD;
+}
+
+.tabla_PG td{
+   padding: .5%;
+	background: white;
+}

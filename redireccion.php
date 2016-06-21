@@ -31,7 +31,7 @@
 
            $Alias=$row['alias'];
            $Password=$row['password'];
-           $Id=$row['ID_User'];
+           $Id=$row['ID_Docente'];
            $count++;
            
         }
@@ -72,12 +72,12 @@
   	  }
 
   	 if($CargoSelec=="Docente"){
-       echo $cargo="Docente";
+       $cargo="Docente";
        $user;
        $password;
       
       require("coneccion.php");
-      $consulta=mysql_query("SELECT * FROM usuario WHERE alias='$user' and password='$password' and cargo='$cargo'");
+      $consulta=mysql_query("SELECT * FROM docente WHERE User_Login='$user' and Password='$password'");
       $count = 0;
 
         try {
@@ -85,9 +85,9 @@
         while($row=mysql_fetch_array($consulta))
         {
 
-           $Alias=$row['alias'];
-           $Password=$row['password'];
-           $Id=$row['ID_User'];
+           $Alias=$row['User_Login'];
+           $Password=$row['Password'];
+           $Id=$row['ID_Docente'];
            $count++;
            
         }
