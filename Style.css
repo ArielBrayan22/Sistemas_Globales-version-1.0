@@ -173,7 +173,7 @@ a#link_footer{
 	color: white;
 	height: 80px;
 }	
-	#main-header a {
+header#main-header a {
 		color: white;
 	}
  
@@ -183,16 +183,17 @@ a#link_footer{
 body{
 	font-family: Helvetica, Arial, sans-serif;
 }
-#logo-header {
+
+a#logo-header {
 	float: left;
 	padding: 15px 0 0 20px;
 	text-decoration: none;
 }
-#logo-header:hover {
+a#logo-header:hover {
 	color: #0b76a6;
 }
 	
-#logo-header .site-name {
+a#logo-header .site-name {
 	display: block;
 	font-weight: 700;
 	font-size: 1.9em;
