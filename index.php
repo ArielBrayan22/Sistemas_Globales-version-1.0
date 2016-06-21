@@ -4,9 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="Style.css">
 </head>
 <body>
-	<!--<header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
-  <hr></hr>
-  </header>-->
+	
     <header id="main-header">
 		
 		<a id="logo-header" href="#">
@@ -52,7 +50,7 @@
 	</aside>
 
 <article id="cuerpo">
-    <center><img src="imagenes/slider1.JPG" width="100%" height="70%" ></center>
+    <center><img src="imagenes/slider1.jpg" width="100%" height="70%" ></center>
 
 </article>
 
