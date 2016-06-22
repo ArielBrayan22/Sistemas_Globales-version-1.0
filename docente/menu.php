@@ -25,7 +25,7 @@
     <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>
     <div id="titulo">
 
-    <a id="titulo" href="Buscar_Planes_Globales.php">Planes Globales</a>
+    <a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a>
 
 
     </div>

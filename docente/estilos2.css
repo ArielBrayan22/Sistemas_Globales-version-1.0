@@ -1,0 +1,115 @@
+table#table{
+
+	width: 100%;
+	font-size: 14px;
+	border-color:  solid 1% black;
+	}
+
+table#table td{
+	padding: 1%;
+	background:white;
+
+	color: black;
+	padding: 1%;
+	border:solid black 1px;
+}
+
+table#table td#t{
+	background-color:#A4A4A4;
+	color: black;
+	text-align: center;
+	padding: 1%;
+}
+
+body{
+	background: ;
+	padding: 5%;
+}
+
+hr#linea_primaria{
+	background-color: black;
+	 height: 2px;
+	  border: 0;
+}
+
+hr#linea_secundaria{
+	 background-color: black;
+	 height: 1px;
+	  border: 0;
+}
+
+h4#tabla_title{
+	border:solid #A4A4A4 2px;
+	width: 360px;
+	padding: .5%;
+	background: #D8D8D8;
+	margin-bottom:-0.5px;
+	padding-bottom:-0.5px;
+}
+
+
+h4#tabla_title_large{
+	border:solid #A4A4A4 2px;
+	width: 500px;
+	padding: .5%;
+	background: #D8D8D8;
+	margin-bottom:-0.5px;
+	padding-bottom:-0.5px;
+}
+
+h4#tabla_title_large_2{
+	border:solid #A4A4A4 2px;
+	width: 600px;
+	padding: .5%;
+	background: #D8D8D8;
+	margin-bottom:-0.5px;
+	padding-bottom:-0.5px;
+}
+
+p#tabla_titulo{
+	margin: none;
+	color: black;
+}
+h4#tabla_titulo{
+	margin: none;
+}
+table#tabla_Identificacion {
+ border:solid #A4A4A4 3px;
+ font:times;
+ font-size: 17px;
+ padding:1%;
+ width: 100%;
+}
+table#tabla_Identificacion td{
+ padding: 1%;
+ 
+ padding-right: 0px;
+}
+textarea#txt_M_R{
+	border: none;
+	font-type:times;
+    font-size: 17px;
+}
+
+table#tabla_Ident{
+ border:solid #A4A4A4 3px;
+ font:times;
+ font-size: 17px;
+ padding:1%;
+ width: 100%;
+
+}
+
+td#titulo_tabla{
+ text-align: center;
+ background-color: #D8D8D8;
+  border:solid #A4A4A4 3px;
+}
+
+td#td_Medio{
+	text-align: center;
+}
+
+p{
+	color: white;
+}

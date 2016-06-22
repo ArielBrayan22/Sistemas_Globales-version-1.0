@@ -66,3 +66,156 @@ table#tabla_Materias td{
 .tabla_Cronograma{
 	 background:#BDBDBD;
 }
+
+
+
+table#planes_globales{
+
+	width: 90%;
+	text-align: center;
+}
+
+table#planes_globales tr#titulo{
+	background: blue;
+	color: white;
+}
+
+table#planes_globales tr#subtitulo{
+	background: white;
+	color: black;
+}
+table#tabla_user{
+	background: red;
+	width: 90%;
+	color: white;
+}
+
+table#tabla_Identificacion{
+
+	background:#BDBDBD;
+	width:90%;
+}
+
+table#tabla_Identificacion td{
+
+	padding: .5%;	
+	background: white;
+}
+
+table#tabla_Materias{
+
+    background:#BDBDBD;
+	width:90%;
+	text-align: center;
+}
+
+table#tabla_Materias td{
+
+    padding: .5%;	
+	background: white;
+}
+
+.id_materia{
+	text-align: center;
+	border-style: none;
+
+}
+.input_invi{
+	visibility: hidden;
+}
+
+.tabla_Cronograma td{
+	
+	padding: .5%;
+	text-align: center;
+	 background:white;
+}
+
+
+.tabla_Cronograma{
+	 background:#BDBDBD;
+}
+
+
+.input_Grupo{
+
+	background-color: white;
+	text-align: center;
+}
+
+.Table_Materia{
+	width: 100%;
+	text-align: center;
+	background-color: white;
+
+}
+
+
+ td#td_Materia{
+ background-color:#154360;
+ width: 57%;
+ padding: .5%;
+ }
+
+ td#td_Grupo{
+ background-color:#154360; 
+ width: 19.2%;
+ padding: .5%;
+ }
+
+td#td_Select{
+    padding: .5%;
+	background-color:#154360;
+	width: 14%;
+}
+td#td_Imprimir{
+ background-color:#154360; 
+ padding: .5%;
+
+}
+
+
+
+
+ td#td_Grupo1{
+
+}
+
+td#td_Boton1{
+
+	
+}
+td#td_Imprimir1{
+
+}
+
+/* Estilos de el buscador*/
+
+table#Manual_Usuario{
+   
+	background-color: red;
+	text-align: center;
+	color: white;
+}
+
+table#Tabla_Video{
+  width: 70%;
+}
+
+table#Tabla_Video td{
+	
+	padding: 1%;
+	width: 80%;
+	background-color: #E5E8E8;
+
+}
+td#td_documentacion{
+	
+	width: 30%;
+}
+
+a#redireccion_imprimir{
+  border: solid blue 1px;
+  text-decoration: none;
+  background: red;
+}

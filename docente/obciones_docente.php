@@ -22,12 +22,11 @@
   </header>
 	
 	<aside id="menu">
-    <div id="titulo"><a id="titulo" href="index.php">Inicio</a></div>
+    <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>
     <div id="titulo">
 
-    <a id="titulo" href="Buscar_Planes_Globales.php">Planes Globales</a>
-    <a id="titulo" href="Materias_Asignadas.php">Materias</a>
-
+    <a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a>
+    
     </div>
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
     <div id="titulo"><a id="titulo" href="Manual_de_Usuario.php">Manual de Usuario</a></div>
