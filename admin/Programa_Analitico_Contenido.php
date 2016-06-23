@@ -62,7 +62,9 @@
     $mate = $_POST['mate'];
     $codigo = mysql_query("SELECT Codigo FROM materia WHERE materia.Nombre_Materia='$mate'",$enlace);
     $carrera = mysql_query("SELECT nombre_carrera FROM materia, carrera WHERE materia.ID_Carrera = carrera.ID_Carrera AND materia.Nombre_Materia='$mate'",$enlace);
-    $contenido = mysql_query("SELECT nombre_unidad FROM materia, planglobal, contenido WHERE contenido.ID_PG=planglobal.ID_PG AND planglobal.ID_Materia=materia.ID_Materia AND materia.Nombre_Materia='$mate'",$enlace);
+    $contenido = mysql_query("SELECT nombre_unidad, objetivo FROM materia, planglobal, contenido WHERE contenido.ID_PG=planglobal.ID_PG AND planglobal.ID_Materia=materia.ID_Materia AND materia.Nombre_Materia='$mate'",$enlace);
+    $docente = mysql_query("SELECT Nombre_Completo, Apellido_Paterno, Apellido_Materno FROM materia, planglobal, docente WHERE materia.ID_Materia=planglobal.ID_Materia AND planglobal.ID_Docente=docente.ID_Docente AND materia.Nombre_Materia='$mate'",$enlace);
+    $bibliografia = mysql_query("SELECT texto FROM materia, planglobal, bibliografia WHERE bibliografia.ID_PG=planglobal.ID_PG AND planglobal.ID_Materia=materia.ID_Materia AND materia.Nombre_Materia='$mate'",$enlace);
 
     while ($row = mysql_fetch_row($codigo)){   
           $cod = $row[0];
@@ -70,12 +72,17 @@
     while ($row = mysql_fetch_row($carrera)){   
           $car = $row[0];
     } 
+    while ($row = mysql_fetch_row($docente)){   
+      $nombre_completo= $row[0];
+      $apellido_paterno= $row[1];
+      $apellido_materno= $row[2];
+    }  
+    
+    echo "</table>";
+    echo "<h1 ALIGN='center'>PROGRAMA ANALITICO</h1>";
     echo "<table>";  
     echo "<tr>";  
-    echo "<th>Programa Analitico</th>";  
-    echo "</tr>";
-    echo "<tr>";  
-    echo "<td>IDENTIFICACION</td>";
+    echo "<th>IDENTIFICACION</th>";  
     echo "</tr>";
     echo "<tr>";  
     echo "<td>
@@ -87,10 +94,11 @@
          </td>";
     echo "<td>
             Departamento: </br>
-            Docentes: </br>
+            Docentes: $nombre_completo</br>
          </td>";
     echo "</tr>";
     echo "</table>";
+    echo "</br>"; 
     
     echo "<table>";  
     echo "<tr>";  
@@ -104,10 +112,33 @@
     while ($row = mysql_fetch_row($contenido)){   
       echo "<tr>";  
       echo "<td>$row[0]</td>";
-      echo "</tr>";  
+      echo "</tr>";
+      echo "<tr>";  
+      echo "<td>$row[1]</td>";
+      echo "</tr>";
+
     }  
     echo "</table>";
+    echo "</br>";
+
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Bibliografia</th>";  
+    echo "</tr>";
+    echo "</table>";
+    echo "<table>";  
+    echo "<tr>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($bibliografia)){   
+      echo "<tr>";  
+      echo "<td>$row[0]</td>";
+      echo "</tr>";
+
+    }  
+    echo "</table>";
+
   ?>
+
   </form>
  
   <?php
