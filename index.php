@@ -4,10 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="Style.css">
 </head>
 <body>
-	<!--<header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
-  <hr></hr>
-  </header>-->
-    <header id="main-header">
+	<header id="main-header">
 		
 		<a id="logo-header" href="#">
 			<span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
@@ -21,7 +18,7 @@
 		</nav><!-- / nav -->
  
 	</header><!-- / #main-header -->
-	
+	<hr></hr>
 	<aside id="menu">
     <div id="titulo"><a id="titulo" href="index.php">Inicio</a></div>
     <div id="titulo"><a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a></div>

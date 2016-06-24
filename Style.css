@@ -190,7 +190,7 @@ a#logo-header {
 	text-decoration: none;
 }
 a#logo-header:hover {
-	color: #0b76a6;
+	color: #e0e0e0;
 }
 	
 a#logo-header .site-name {
@@ -224,5 +224,5 @@ nav ul li a {
 }
 			
 nav ul li a:hover {
-	background: #0b76a6;
+	background: #154360;
 } 

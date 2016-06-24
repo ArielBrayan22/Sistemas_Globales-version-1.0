@@ -15,7 +15,7 @@
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
 </head>
 <body>
-  <header id="main-header">
+    <header id="main-header">
     <a id="logo-header" href="#">
       <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
     </a> <!-- / #logo-header -->
@@ -31,15 +31,15 @@
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   
   <aside id="menu">
-    <div id="titulo"><a id="titulo" href="menu_root.php">Inicio</a></div>
+    <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>
+    <div id="titulo">
 
-    <div id="titulo"><a id="titulo" href="Crear_Plan_Global.php">Crear Plan Global</a></div>
-    <div id="titulo"><a id="titulo" href="Crear_Materia.php">Crear Materia</a></div>
-    <div id="titulo"><a id="titulo" href="Crear_Docente.php">Crear Docente</a></div>
+    <a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a>
 
-    
+
+    </div>
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
-    <div id="titulo"><a id="titulo" href="Operaciones_Manual_de_Usuario.php">Manual de Usuario</a></div>
+    <div id="titulo"><a id="titulo" href="Manual_de_Usuario.php">Manual de Usuario</a></div>
       <table id="tabla_user">
       <?php
            require ("coneccion.php");
@@ -62,9 +62,39 @@
   </aside>
 
 <article id="cuerpo">
-  <form method="post" actio="">
-  <center><input  type="submit" name="btn_Plan_Global" value="Crear Plan Global">
-  <input type='submit' value='Lista Planes Globales' name='btn_Ver_Planes_Globales'></center>
+  <form method="post" action="Programa_Analitico_Materias.php">
+  <?php
+    $enlace = mysql_connect('localhost','root','');
+    if (!$enlace) {
+      die('no pudo conectarse: '.mysql_error());
+    }
+    mysql_select_db('planglobal',$enlace);
+
+    if ($_POST['facu']=="Facultad de Ciencias y Tecnologia") {
+    $resultado = mysql_query("SELECT nombre_carrera FROM carrera WHERE facultad = 'Tecnologia'",$enlace);
+    }
+        if ($_POST['facu']=="Facultad de Medicina") {
+    $resultado = mysql_query("SELECT nombre_carrera FROM carrera WHERE facultad = 'Medicina'",$enlace);
+    }
+        if ($_POST['facu']=="Facultad de Ciencias Economicas") {
+    $resultado = mysql_query("SELECT nombre_carrera FROM carrera WHERE facultad = 'Economia'",$enlace);
+    }
+        if ($_POST['facu']=="Facultad de Humanidades") {
+    $resultado = mysql_query("SELECT nombre_carrera FROM carrera WHERE facultad = 'Humanidades'",$enlace);
+    }
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Carreras</th>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($resultado)){   
+      $carrera = $row[0];
+      echo "<tr>";  
+      echo "<td><input type='submit' name = 'carre' value='$carrera'/></td>";
+
+      echo "</tr>";  
+    }  
+    echo "</table>";
+  ?>
   </form>
  
   <?php

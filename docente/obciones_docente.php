@@ -14,12 +14,25 @@
 	<title>Sistema de Planes Globales</title>
 	<link rel="stylesheet" type="text/css" href="Style.css">
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
+   <link rel="stylesheet" type="text/css" href="estilo.css">
+  <link rel="stylesheet" type="text/css" href="estilos1.css">
+
 </head>
 <body>
-	<header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
-  <hr></hr>
+	<header id="main-header">
+    <a id="logo-header" href="#">
+      <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
+    </a> <!-- / #logo-header -->
+ 
+    <nav>
+      <ul>
+        <li><a href="pagina_ayuda.html">Ayuda</a></li>
+        <li><a href="#">Contactanos</a></li>
+      </ul>
+    </nav><!-- / nav -->
+  </header><!-- / #main-header -->
+   <hr></hr>
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
-  </header>
 	
 	<aside id="menu">
     <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>
@@ -83,7 +96,7 @@
                 <td>Grupo</td>
                 <td>Imprimir</td>
                 <td>Ver</td>
-                <td>Editar</td>
+                <td>Editar A</td>
                 </tr>";
           while($row=mysql_fetch_array($resultado)){
          
@@ -107,18 +120,294 @@
        // BOTON IMPRIMIR MATERIA
 
        if(isset($_POST['btn_Imprimir'])){
+          $Cod_M=$_POST['txt_Cod_M'];
+          $Cod_PG=$_POST['txt_Cod_PG'];
 
-         echo "entro ";
-
-         echo $Cod_Materia=$_POST['txt_Cod_M'];
+         echo '<center><a id="redireccion_imprimir" href="Imprimir_Plan_Global_Docente.php? Cod_PG='.$Cod_PG.'&Cod_M='.$Cod_M.'">Realizar Impresion</a></center>'; 
        }
 
        // BOTON VER MATERIA
 
        if(isset($_POST['btn_Ver_Materia'])){
 
-         echo "entro ";
-          echo $Cod_Materia=$_POST['txtCodM'];
+          
+          $Cod_M=$_POST['txt_Cod_M'];
+          $Cod_PG=$_POST['txt_Cod_PG'];  
+     
+          require ("coneccion.php");
+          
+           echo '<center><P id="tabla_titulo" >UNIVERSIDAD MAYOR DE SAN SIMON </P>
+                <P id="tabla_titulo" >FACULTAD DE CIENCIAS Y TECNOLOGIA</P>
+                <hr id="linea_primaria"></hr>
+                <h4 id="tabla_titulo">PLAN GLOBAL</h4>';
+
+                  $consulta="SELECT DISTINCT * FROM materia m WHERE m.ID_Materia=$Cod_M";
+  
+                  $resultado=mysql_query($consulta);
+
+                   while($row=mysql_fetch_array($resultado)){
+
+                   echo '<h4 id="tabla_titulo">'.$row['Nombre_Materia'].'</h4>';}
+                   echo '</center>';
+
+                   echo '<hr id="linea_secundaria"></hr>';
+
+ //I. DATOS DE IDENTIFICACION
+                   echo '<H4 id="tabla_title">I. DATOS DE IDENTIFICACION</H4>';
+
+
+    echo '<table id="tabla_Ident">';
+
+          $consulta="SELECT DISTINCT * FROM materia m WHERE m.ID_Materia=$Cod_M";
+  
+          $resultado=mysql_query($consulta);
+
+        while($row=mysql_fetch_array($resultado)){
+
+           echo ' <tr><td><li type="square">Nombre de la materia :</li></td><td>'.
+                $row['Nombre_Materia'].'</td></tr>
+               <tr><td><li type="square">Codigo :</li></td><td>'
+               .$row['Codigo'].'</td></tr>
+               <tr><td><li type="square">Grupo :</li></td><td>'
+               .$row['Grupo'].'</td></tr>
+               <tr><td><li type="square">Carga horaria:</li></td><td>'
+               .$row['Carga_Horaria'].'</td></tr>
+               <tr><td><li type="square">Materias Relacionadas:</li></td><td>'
+               .$row['Materias_Relacionadas'].'</td></tr>';
+
+          }
+         
+
+    echo '<tr><td><li type="square">Docente :</li></td><td>
+           <table>';
+           
+              $consulta="SELECT * FROM planglobal pg,materia m,docente d 
+                   WHERE m.ID_Materia=$Cod_M AND pg.ID_Materia=m.ID_Materia 
+                   AND pg.ID_Docente=d.ID_Docente";
+  
+        $resultado=mysql_query($consulta);
+
+        while($row=mysql_fetch_array($resultado)){
+
+           echo '<tr><td>'.$row['Nombre_Completo'].' '
+                          .$row['Apellido_Paterno'].' '
+                          .$row['Apellido_Materno'].' '
+                          .'</td></tr>';
+          }
+
+    echo '</table
+             </td></tr>';
+  // MOSTRAR TELEFONOS
+    echo '<tr><td><li type="square">Telefono :</li></td><td>
+           <table>';
+
+           $consulta="SELECT * FROM planglobal pg,materia m,docente d 
+                      WHERE m.ID_Materia=$Cod_M AND pg.ID_Materia=m.ID_Materia 
+                      AND pg.ID_Docente=d.ID_Docente";
+  
+        $resultado=mysql_query($consulta);
+
+        while($row=mysql_fetch_array($resultado)){
+
+           echo '<tr><td>'.$row['Telefono'].'</td></tr>';
+          } 
+          
+    echo  '</table></td></tr>';
+
+    //MOTRANDO CORREOS
+
+    echo '<tr><td><li type="square">Correo :</li></td><td>
+           <table>';
+
+           $consulta="SELECT * FROM planglobal pg,materia m,docente d 
+                      WHERE m.ID_Materia=$Cod_M AND pg.ID_Materia=m.ID_Materia 
+                      AND pg.ID_Docente=d.ID_Docente";
+  
+        $resultado=mysql_query($consulta);
+
+        while($row=mysql_fetch_array($resultado)){
+
+           echo '<tr><td>'.$row['Correo'].'</td></tr>';
+          } 
+          
+    echo  '</table></td></tr></table>';
+
+
+    //MOSTRAR JUSTIFICACION
+
+         echo '<H4 id="tabla_title">II. JUSTIFICACION</H4>'; 
+        
+         echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM justificacion j,planglobal pg 
+                  WHERE j.ID_PG='$Cod_PG' AND j.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query);
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>'.$row['Justificacion'].'</td></tr>'; } 
+          
+          echo  '</table>';
+
+
+  //MOSTRAR OBJETIVOS
+
+           //MOSTRAR JUSTIFICACION
+
+         echo '<H4 id="tabla_title">III. OBJETIVOS</H4>'; 
+        
+         echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM objetivo o,planglobal pg 
+                  WHERE o.ID_PG='$Cod_PG' AND o.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query);
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>&bull; '.$row['Texto_Obj'].'</td></tr>'; } 
+          
+          echo  '</table>';
+
+ //MOSTRAR SELECCION Y ORGANIZACION DE CONTENIDOS
+
+          echo '<H4 id="tabla_title_large">IV. SELECCION Y ORGANIZACION DE CONTENIDOS</H4>'; 
+        
+        
+
+          $query="SELECT COUNT(*) FROM unidad u,planglobal pg 
+                  WHERE u.ID_PG='$Cod_PG' AND u.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query,$link);
+          $u=mysql_result($resultado, 0, "COUNT(*)");
+          
+          $query1=" SELECT * FROM unidad u,planglobal pg 
+                    WHERE u.ID_PG='$Cod_PG' AND u.ID_PG=pg.ID_PG";
+          $resultado1=mysql_query($query1,$link);
+          
+         echo '<table id="tabla_Ident"><tr><td>';
+        
+         for ($i=0; $i <$u; $i++) { 
+             
+              
+             mysql_result($resultado1, $i, "Unidad");
+             $id_unidad=mysql_result($resultado1, $i, "ID_Unidad");
+        
+             echo '<h4> Unidad '.mysql_result($resultado1, $i, "Numero_Unidad").' .-
+             '.mysql_result($resultado1, $i, "Unidad").'</h4>';
+
+
+             //OBJETIVO
+             $query2="SELECT COUNT(*) FROM seccion_objetivo WHERE ID_Unidad=$id_unidad";
+             $resultado2=mysql_query($query2,$link);
+
+             $n=mysql_result($resultado2, 0, "COUNT(*)");
+             
+             echo "</p>Objetivo(s) de las unidad:</br>";
+
+              for ($j=0; $j <$n ; $j++) { 
+                 
+                  $query3="SELECT * FROM seccion_objetivo WHERE ID_Unidad=$id_unidad";
+                  $resultado3=mysql_query($query3,$link);
+                  
+                   echo '&nbsp;&nbsp;&nbsp;&nbsp; &bull; '.mysql_result($resultado3, $j, "Objetivo").'</br>';
+    
+                }
+                
+
+             // CONTENIDO
+
+                $query4="SELECT COUNT(*) FROM seccion_contenido WHERE ID_Unidad=$id_unidad";
+                $resultado4=mysql_query($query4,$link);
+
+                $m=mysql_result($resultado4, 0, "COUNT(*)");
+                echo "</p>Contenido : </br>";
+                 
+                for ($k=0; $k <$m ; $k++) { 
+                    $query5="SELECT * FROM seccion_contenido WHERE ID_Unidad=$id_unidad";
+                    $resultado5=mysql_query($query5,$link);
+                 
+                 echo '&nbsp;&nbsp;&nbsp;&nbsp;'.mysql_result($resultado5, $k, "Contenido").'</br>';
+
+                }
+                
+             }
+
+             echo '</td></tr></table>';
+
+
+        //MOSTRAMOS METODOLOGIAS
+
+         echo '<H4 id="tabla_title">V. METODOLOGIAS</H4>'; 
+        
+         echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM metodologia m,planglobal pg 
+                  WHERE m.ID_PG='$Cod_PG' AND m.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query);
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>&bull; '.$row['Metodologia'].'</td></tr>'; } 
+          
+          echo  '</table>';  
+
+          //MOSTRAREMOS CRONOGRAMA O DURACIÓN EN PERIODOS ACADÉMICOS POR UNIDAD
+         
+          echo '<H4 id="tabla_title_large_2" >VI. CRONOGRAMA O DURACIÓN EN PERIODOS ACADÉMICOS POR UNIDAD</H4>'; 
+        
+         echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM planglobal pg,unidad u WHERE pg.ID_PG='$Cod_PG' AND pg.ID_PG=u.ID_PG";
+
+          $resultado=mysql_query($query);
+          echo '<tr><td id="titulo_tabla">Unidad</td>
+                    <td id="titulo_tabla">Duracion </br> (Horas Academicas)</td>
+                    <td id="titulo_tabla">Duracion en Semana</td></tr>';
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>&bull; '.$row['Unidad'].'</td><td id="td_Medio" >'.
+                     $row['Hora_Academica'].'</td><td id="td_Medio">'.$row['Cant_Semana'].'</td></tr>'; } 
+          
+          echo  '</table>';  
+
+          //MOSTRAREMOS CRITERIOS DE EVALUACION
+
+          echo '<H4 id="tabla_title">VII. CRITERIOS DE EVALUACION</H4>'; 
+        
+          echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM criterio c,planglobal pg 
+                  WHERE c.ID_PG='$Cod_PG' AND c.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query);
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>&bull; '.$row['Criterio'].'</td></tr>'; } 
+          
+          echo  '</table>';  
+         
+          //MOSTRAREMOS BIBLIOGRAFIA
+
+          echo '<H4 id="tabla_title">VIII. BIBLIOGRAFIA</H4>'; 
+        
+          echo '<table id="tabla_Ident">';
+
+          $query="SELECT * FROM bibliografia b,planglobal pg 
+                  WHERE b.ID_PG='$Cod_PG' AND b.ID_PG=pg.ID_PG";
+
+          $resultado=mysql_query($query);
+
+          while($row=mysql_fetch_array($resultado)){
+
+               echo '<tr><td>&bull; '.$row['texto'].'</td></tr>'; } 
+          
+          echo  '</table>'; 
+
        }
 
 
@@ -261,6 +550,7 @@
          echo "<form method='post'>
                <input type='text' name='txt_Cod_M' style='visibility:hidden' value='".$Cod_Materia."'>
                <input type='text' name='txt_Cod_PG' style='visibility:hidden' value='".$ID_PG."'>
+             
                <input type='submit' name='btn_Justificacion' value='atras'>
                </form>";
         }
@@ -288,14 +578,18 @@
       //BOTON EDITAR JUSTIFICACION
 
       if(isset($_POST['btn_Editar_Justificacion']))
-      {
+      { 
+        $ID_J=$_POST['ID_J'];
         $Texto=$_POST['txt_justificacion'];
         $Cod_Materia=$_POST['txt_Cod_M'];
         $ID_PG=$_POST['ID_PG'];
         $CodigoD;
        
-        
-        $query="UPDATE `justificacion` SET `Justificacion` = '$Texto' WHERE ID_PG='$ID_PG'";
+      
+
+        $query="UPDATE `justificacion` SET `Justificacion` = '$Texto', `ID_PG` = '$ID_PG' 
+                WHERE `justificacion`.`Id_Justificacion` = $ID_J;";
+
         $resultado=mysql_query($query,$link);
         echo "<script>alert('Justificacion Editada Correctamente');</script>";
 

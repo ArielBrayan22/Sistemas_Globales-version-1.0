@@ -29,6 +29,7 @@
   </header><!-- / #main-header -->
    <hr></hr>
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
+  </header>
   
   <aside id="menu">
     <div id="titulo"><a id="titulo" href="menu_root.php">Inicio</a></div>
@@ -62,9 +63,28 @@
   </aside>
 
 <article id="cuerpo">
-  <form method="post" actio="">
-  <center><input  type="submit" name="btn_Plan_Global" value="Crear Plan Global">
-  <input type='submit' value='Lista Planes Globales' name='btn_Ver_Planes_Globales'></center>
+  <form method="post" action="Programa_Analitico_Carreras.php">
+  <?php
+    $enlace = mysql_connect('localhost','root','');
+    if (!$enlace) {
+      die('no pudo conectarse: '.mysql_error());
+    }
+    mysql_select_db('planglobal',$enlace);
+
+    $resultado = mysql_query("SELECT Facultad FROM facultad",$enlace);
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Facultad</th>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($resultado)){   
+      $facu = $row[0];
+      echo "<tr>";  
+      echo "<td><input type='submit' name = 'facu' value='$facu'/></td>";
+
+      echo "</tr>";  
+    }  
+    echo "</table>";
+  ?>
   </form>
  
   <?php

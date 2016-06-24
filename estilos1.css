@@ -1,0 +1,102 @@
+.input_Carrera{
+	border: none;
+	font-size: 17px;
+	font: bold 100% Times;
+}
+
+h3#titulo_niveles{
+
+}
+
+.input_Grupo{
+
+	background-color: white;
+	text-align: center;
+}
+
+.Table_Materia{
+	width: 100%;
+	text-align: center;
+	background-color: white;
+
+}
+
+
+ td#td_Materia{
+ background-color:#154360;
+ width: 57%;
+ padding: .5%;
+ }
+
+ td#td_Grupo{
+ background-color:#154360; 
+ width: 19.2%;
+ padding: .5%;
+ }
+
+td#td_Select{
+    padding: .5%;
+	background-color:#154360;
+	width: 14%;
+}
+td#td_Imprimir{
+ background-color:#154360; 
+ padding: .5%;
+
+}
+
+.Tabla_Frontal{
+	width: 100%;
+	color: white;
+	text-align: center;
+}
+
+ td#td_Materia1{
+
+}
+
+ td#td_Grupo1{
+
+}
+
+td#td_Boton1{
+
+	
+}
+td#td_Imprimir1{
+
+}
+
+/* Estilos de el buscador*/
+
+table#Manual_Usuario{
+   
+	background-color: red;
+	text-align: center;
+	color: white;
+}
+
+table#Tabla_Video{
+  width: 70%;
+}
+
+table#Tabla_Video td{
+	
+	padding: 1%;
+	width: 80%;
+	background-color: #E5E8E8;
+
+}
+td#td_documentacion{
+	
+	width: 30%;
+}
+
+a#redireccion_imprimir{
+ 
+  text-decoration: none;
+  background:#F2F2F2;
+  color:black;
+  padding: .3%;
+  border-color:#848484;
+}

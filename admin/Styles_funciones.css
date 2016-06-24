@@ -86,3 +86,14 @@ table#tabla_PG td {
    padding: .5%;
 	background: white;
 }
+
+
+
+h1#titulo_PA{
+  
+  margin: 0px;
+}
+h3#titulos_PA{
+	background: #81BEF7;
+	border-color: black;
+}

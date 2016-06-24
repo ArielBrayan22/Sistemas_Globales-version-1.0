@@ -8,12 +8,22 @@
   <link rel="stylesheet" type="text/css" href="Style.css">
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
   <link rel="stylesheet" type="text/css" href="estilo.css">
+  <link rel="stylesheet" type="text/css" href="estilo1.css">
 </head>
 <body>
-  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
+  <header id="main-header">
+    <a id="logo-header" href="#">
+      <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
+    </a> <!-- / #logo-header -->
+ 
+    <nav>
+      <ul>
+        <li><a href="pagina_ayuda.html">Ayuda</a></li>
+        <li><a href="#">Contactanos</a></li>
+      </ul>
+    </nav><!-- / nav -->
+  </header><!-- / #main-header -->
   <hr></hr>
-  </header>
-  
   <aside id="menu">
     <div id="titulo"><a id="titulo" href="index.php">Inicio</a></div>
     <div id="titulo"><a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a></div>
@@ -211,7 +221,7 @@
      
        echo '
       
-       <tr><td>Seleccione el nivel</td></tr>
+       <tr><td>Seleccione la Materia</td></tr>
        
        <tr><td><select class="Select_Carrera" name="Select_M[]">';
        echo '<option value=""></option>';
@@ -590,7 +600,7 @@
                 $Cod_PG=$row['ID_PG'];}
 
 
-      echo '<center><a href="Imprimir_Plan_Global.php? Cod_PG='.$Cod_PG.'&Cod_M='.$Cod_M.'">Realizar Impresion</a></center>'; 
+      echo '<center><a id="redireccion_imprimir" href="Imprimir_Plan_Global.php? Cod_PG='.$Cod_PG.'&Cod_M='.$Cod_M.'">Realizar Impresion</a></center>'; 
 
 
       

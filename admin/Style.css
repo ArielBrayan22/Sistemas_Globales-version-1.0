@@ -172,3 +172,64 @@ a#link_footer{
 }
 
 /*Fin Estructura del menu con fondos y estilos */
+/*
+ * Estilos Igor
+*/
+#main-header {
+	background: #d32f2f;
+	color: white;
+	height: 80px;
+}	
+header#main-header a {
+		color: white;
+	}
+ 
+/*
+ * Logo
+ */
+body{
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+a#logo-header {
+	float: left;
+	padding: 15px 0 0 20px;
+	text-decoration: none;
+}
+a#logo-header:hover {
+	color: #e0e0e0;
+}
+	
+a#logo-header .site-name {
+	display: block;
+	font-weight: 700;
+	font-size: 1.9em;
+}
+	
+/*
+ * Navegación
+ */
+nav {
+	float: right;
+}
+nav ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		padding-right: 20px;
+}
+	
+nav ul li {
+	display: inline-block;
+	line-height: 80px;
+}
+			
+nav ul li a {
+	display: block;
+	padding: 0 10px;
+	text-decoration: none;
+}
+			
+nav ul li a:hover {
+	background: #154360;
+} 

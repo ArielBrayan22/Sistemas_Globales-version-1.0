@@ -22,9 +22,20 @@
   <link rel="stylesheet" type="text/css" href="estilos1.css">
 </head>
 <body>
-  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
-  <hr></hr>
-  </header>
+  <header id="main-header">
+    <a id="logo-header" href="#">
+      <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
+    </a> <!-- / #logo-header -->
+ 
+    <nav>
+      <ul>
+        <li><a href="pagina_ayuda.html">Ayuda</a></li>
+        <li><a href="#">Contactanos</a></li>
+      </ul>
+    </nav><!-- / nav -->
+  </header><!-- / #main-header -->
+   <hr></hr>
+   <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   
   <aside id="menu">
     <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>

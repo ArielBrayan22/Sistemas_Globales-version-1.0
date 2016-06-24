@@ -1,3 +1,103 @@
+
+
+table#planes_globales{
+
+	width: 90%;
+	text-align: center;
+}
+
+table#planes_globales tr#titulo{
+	background: blue;
+	color: white;
+}
+
+table#planes_globales tr#subtitulo{
+	background: white;
+	color: black;
+}
+
+table#tabla_user{
+	background: red;
+	width: 90%;
+	color: white;
+}
+
+table#tabla_Identificacion{
+
+	background:#BDBDBD;
+	width:90%;
+}
+
+table#tabla_Identificacion td{
+
+	padding: .5%;	
+	background: white;
+}
+
+table#tabla_Materias{
+
+    background:#BDBDBD;
+	width:90%;
+	text-align: center;
+}
+
+table#tabla_Materias td{
+
+    padding: .5%;	
+	background: white;
+}
+
+.id_materia{
+	text-align: center;
+	border-style: none;
+
+}
+.input_invi{
+	visibility: hidden;
+}
+
+table#tabla_PG{
+
+	width: 100%;
+}
+table#tabla_PG td {
+	padding: .5%;
+
+}
+.tabla_user{
+	background: red;
+}
+
+.tabla_lista_docentes{
+	background: #BDBDBD;
+}
+
+.tabla_lista_docentes td{
+	padding: .5%;
+	background: white;
+	
+}
+
+.tabla_PG{
+	background: #BDBDBD;
+}
+
+.tabla_PG td{
+   padding: .5%;
+	background: white;
+}
+
+
+
+h1#titulo_PA{
+  
+  margin: 0px;
+}
+h3#titulos_PA{
+	background: #81BEF7;
+	border-color: black;
+}
+
 .input_Carrera{
 	border: none;
 	font-size: 17px;
@@ -6,6 +106,7 @@
 
 h3#titulo_niveles{
 
+   border-color: white;
 }
 
 .input_Grupo{

@@ -22,9 +22,20 @@
   <link rel="stylesheet" type="text/css" href="estilos1.css">
 </head>
 <body>
-  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
-  <hr></hr>
-  </header>
+  <header id="main-header">
+    <a id="logo-header" href="#">
+      <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
+    </a> <!-- / #logo-header -->
+ 
+    <nav>
+      <ul>
+        <li><a href="pagina_ayuda.html">Ayuda</a></li>
+        <li><a href="#">Contactanos</a></li>
+      </ul>
+    </nav><!-- / nav -->
+  </header><!-- / #main-header -->
+   <hr></hr>
+   <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   
   <aside id="menu">
     <div id="titulo"><a id="titulo" href="menu.php">Inicio</a></div>
@@ -220,7 +231,7 @@
      
        echo '
       
-       <tr><td>Seleccione el nivel</td></tr>
+       <tr><td>Seleccione la Materia</td></tr>
        
        <tr><td><select class="Select_Carrera" name="Select_M[]">';
        echo '<option value=""></option>';
@@ -299,7 +310,8 @@
       if(isset($_POST['Btn_Plan_Global']))
       {
        // echo "Aca el plan global </br>";
-        $Cod_M=$_POST['txt_ID_Materia'];  
+       $Cod_M=$_POST['txt_ID_Materia'];
+
      
         require ("coneccion.php");
 
@@ -310,7 +322,7 @@
                 $Cod_PG=$row['ID_PG'];
             }
       
-
+         $Cod_PG;
 
           echo '<center><P id="tabla_titulo" >UNIVERSIDAD MAYOR DE SAN SIMON </P>
                 <P id="tabla_titulo" >FACULTAD DE CIENCIAS Y TECNOLOGIA</P>
@@ -436,7 +448,7 @@
          echo '<table id="tabla_Ident">';
 
           $query="SELECT * FROM objetivo o,planglobal pg 
-                  WHERE o.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND o.ID_PG=pg.ID_PG";
+                  WHERE o.ID_PG='$Cod_PG' AND o.ID_PG=pg.ID_PG";
 
           $resultado=mysql_query($query);
 
@@ -453,13 +465,13 @@
         
 
           $query="SELECT COUNT(*) FROM unidad u,planglobal pg 
-                  WHERE u.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND u.ID_PG=pg.ID_PG";
+                  WHERE u.ID_PG='$Cod_PG' AND u.ID_PG=pg.ID_PG";
 
           $resultado=mysql_query($query,$link);
           $u=mysql_result($resultado, 0, "COUNT(*)");
           
           $query1=" SELECT * FROM unidad u,planglobal pg 
-                    WHERE u.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND u.ID_PG=pg.ID_PG";
+                    WHERE u.ID_PG='$Cod_PG' AND u.ID_PG=pg.ID_PG";
           $resultado1=mysql_query($query1,$link);
           
          echo '<table id="tabla_Ident"><tr><td>';
@@ -536,7 +548,7 @@
         
          echo '<table id="tabla_Ident">';
 
-          $query="SELECT * FROM planglobal pg,unidad u WHERE pg.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND pg.ID_PG=u.ID_PG";
+          $query="SELECT * FROM planglobal pg,unidad u WHERE pg.ID_PG='$Cod_PG' AND pg.ID_PG=u.ID_PG";
 
           $resultado=mysql_query($query);
           echo '<tr><td id="titulo_tabla">Unidad</td>
@@ -557,7 +569,7 @@
           echo '<table id="tabla_Ident">';
 
           $query="SELECT * FROM criterio c,planglobal pg 
-                  WHERE c.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND c.ID_PG=pg.ID_PG";
+                  WHERE c.ID_PG='$Cod_PG' AND c.ID_PG=pg.ID_PG";
 
           $resultado=mysql_query($query);
 
@@ -574,7 +586,7 @@
           echo '<table id="tabla_Ident">';
 
           $query="SELECT * FROM bibliografia b,planglobal pg 
-                  WHERE b.ID_PG='$Cod_PG' AND pg.tipo='Titular' AND b.ID_PG=pg.ID_PG";
+                  WHERE b.ID_PG='$Cod_PG' AND b.ID_PG=pg.ID_PG";
 
           $resultado=mysql_query($query);
 

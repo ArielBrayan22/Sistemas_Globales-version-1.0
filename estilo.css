@@ -82,3 +82,13 @@ td#titulo_tabla{
 td#td_Medio{
 	text-align: center;
 }
+
+a#redireccion_imprimir{
+ 
+  text-decoration: none;
+  background:#F2F2F2;
+  color:black;
+  padding: .4%;
+  border: black;
+ font-size: 17px;
+}

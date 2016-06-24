@@ -1,13 +1,4 @@
- <?php
- session_start();
- 
 
- if(isset($_SESSION['Alias']))
- {
-    $Alias_User=$_SESSION['Alias'];
-    $Password_User=$_SESSION['Password'];
-    $ID_User=$_SESSION['ID'];
-  ?> 
 <html>
 <head>
   <title>Sistema de Planes Globales</title>
@@ -16,6 +7,7 @@
 </head>
 <body>
   <header id="main-header">
+    
     <a id="logo-header" href="#">
       <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
     </a> <!-- / #logo-header -->
@@ -26,45 +18,61 @@
         <li><a href="#">Contactanos</a></li>
       </ul>
     </nav><!-- / nav -->
+ 
   </header><!-- / #main-header -->
-   <hr></hr>
-   <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
-  
+  <hr></hr>
   <aside id="menu">
-    <div id="titulo"><a id="titulo" href="menu_root.php">Inicio</a></div>
-
-    <div id="titulo"><a id="titulo" href="Crear_Plan_Global.php">Crear Plan Global</a></div>
-    <div id="titulo"><a id="titulo" href="Crear_Materia.php">Crear Materia</a></div>
-    <div id="titulo"><a id="titulo" href="Crear_Docente.php">Crear Docente</a></div>
-
-    
+    <div id="titulo"><a id="titulo" href="index.php">Inicio</a></div>
+    <div id="titulo"><a id="titulo" href="Plan_Global_Publico.php">Planes Globales</a></div>
     <div id="titulo"><a id="titulo" href="Programa_Analitico_Publico.php">Programas Analiticos</a></div>
-    <div id="titulo"><a id="titulo" href="Operaciones_Manual_de_Usuario.php">Manual de Usuario</a></div>
-      <table id="tabla_user">
-      <?php
-           require ("coneccion.php");
-           $query="SELECT * FROM `docente` WHERE ID_Docente=$ID_User";
-          
-           $resultado=mysql_query($query,$link);
-   
-           while($row=mysql_fetch_array($resultado))
-           {
-              echo "<tr><td></td><td><img src='user.jpg' width='120' height='120'></td></tr>";
-              echo "<tr><td>Usuario :</td><td>".$row['Nombre_Completo']." "
-              .$row['Apellido_Paterno']."".$row['Apellido_Materno']."</td></tr>";
-              echo "<tr><td>Cargo :</td><td>Administrador</td></tr>";
-              echo "<tr><td>Nivel de estudios :</td><td>".$row['Profesion']."<td></tr>";
-              echo "<tr><td>login :</td><td>".$row['User_Login']."<td></tr>";
-           }
-       ?>
-    </table>
+    <div id="titulo"><a id="titulo" href="Manual_de_Usuario.php">Manual de Usuario</a></div>
     
+    <form method="post" action="redireccion.php">
+    <table id="tabla">
+    <tr > <td id="t">usuario</td>
+         <td id="t"><input type ="text" name="Txt_User" size="30" class="Txt_Input" placeholder="Nombre Usuario"></td></tr>
+    <tr > <td id="t">password</td>
+        <td id="t"><input type ="password" name="Password_User" size="30" class="Txt_Input" placeholder="Contrasenia"></td></tr>
+        <tr><td id="t">cargo</td><td id="t">
+        <select class="tipo_usuario" name="select[]">
+          
+          <option value=""></option>  
+          <option value="Docente">Docente</option>
+          <option value="Administrador">Administrador</option>
+        </select></td></tr>
+    <tr > <td id="t"  colspan="2"><center><input type ="submit" name="BtnIngreso" value="Ingresar" size="30" class="Bottom"></center></td></tr>
+
+  </table>
+  </form>
+
   </aside>
 
 <article id="cuerpo">
-  <form method="post" actio="">
-  <center><input  type="submit" name="btn_Plan_Global" value="Crear Plan Global">
-  <input type='submit' value='Lista Planes Globales' name='btn_Ver_Planes_Globales'></center>
+  <form method="post" action="Programa_Analitico_Contenido.php">
+  <?php
+    $enlace = mysql_connect('localhost','root','');
+    if (!$enlace) {
+      die('no pudo conectarse: '.mysql_error());
+    }
+    mysql_select_db('planglobal',$enlace);
+    $carre = $_POST['carre'];
+    $resultado = mysql_query("SELECT * FROM materia, carrera WHERE materia.ID_Carrera = carrera.ID_Carrera AND carrera.nombre_carrera='$carre'",$enlace);
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Materias</th>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($resultado)){   
+      $materia = $row[1];
+       $ID_Materia=$row[0];
+      echo "<tr>";  
+      echo "<form method='post' action='Programa_Analitico_Contenido.php'>
+                <input type='text' name='code_Materia' value='$ID_Materia' style='visibility:hidden'>
+                <td><input type='submit' name = 'mate' value='$materia'></td>";
+
+      echo "</tr></form>";  
+    }  
+    echo "</table>";
+  ?>
   </form>
  
   <?php
@@ -434,7 +442,3 @@
 
 </footer>
 </html>
-<?php  } 
-else {
-   header("location: Planes_Globales/index.php");
- } ?>
