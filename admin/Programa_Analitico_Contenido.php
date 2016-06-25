@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
 </head>
 <body>
+<<<<<<< HEAD
   <header id="main-header">
     <a id="logo-header" href="#">
       <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
@@ -28,6 +29,10 @@
     </nav><!-- / nav -->
   </header><!-- / #main-header -->
    <hr></hr>
+=======
+  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
+  <hr></hr>
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   </header>
   
@@ -63,6 +68,7 @@
   </aside>
 
 <article id="cuerpo">
+<<<<<<< HEAD
   <?php
    require ("coneccion.php");
    
@@ -212,6 +218,99 @@
      }
 
     
+=======
+  <form method="post" action="Programa_Analitico_Contenido.php">
+  <?php
+    $enlace = mysql_connect('localhost','root','root');
+    if (!$enlace) {
+      die('no pudo conectarse: '.mysql_error());
+    }
+    mysql_select_db('planglobal',$enlace);
+    $mate = $_POST['mate'];
+    $codigo = mysql_query("SELECT Codigo FROM materia WHERE materia.Nombre_Materia='$mate'",$enlace);
+    $carrera = mysql_query("SELECT nombre_carrera FROM materia, carrera WHERE materia.ID_Carrera = carrera.ID_Carrera AND materia.Nombre_Materia='$mate'",$enlace);
+    $contenido = mysql_query("SELECT nombre_unidad, objetivo FROM materia, planglobal, contenido WHERE contenido.ID_PG=planglobal.ID_PG AND planglobal.ID_Materia=materia.ID_Materia AND materia.Nombre_Materia='$mate'",$enlace);
+    $docente = mysql_query("SELECT Nombre_Completo, Apellido_Paterno, Apellido_Materno FROM materia, planglobal, docente WHERE materia.ID_Materia=planglobal.ID_Materia AND planglobal.ID_Docente=docente.ID_Docente AND materia.Nombre_Materia='$mate'",$enlace);
+    $bibliografia = mysql_query("SELECT texto FROM materia, planglobal, bibliografia WHERE bibliografia.ID_PG=planglobal.ID_PG AND planglobal.ID_Materia=materia.ID_Materia AND materia.Nombre_Materia='$mate'",$enlace);
+
+    while ($row = mysql_fetch_row($codigo)){   
+          $cod = $row[0];
+    }
+    while ($row = mysql_fetch_row($carrera)){   
+          $car = $row[0];
+    } 
+    while ($row = mysql_fetch_row($docente)){   
+      $nombre_completo= $row[0];
+      $apellido_paterno= $row[1];
+      $apellido_materno= $row[2];
+    }  
+    
+    echo "</table>";
+    echo "<h1 ALIGN='center'>PROGRAMA ANALITICO</h1>";
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>IDENTIFICACION</th>";  
+    echo "</tr>";
+    echo "<tr>";  
+    echo "<td>
+            Asignatura: $mate </br>
+            Codigo sis: $cod </br>
+            Carreras: $car </br>
+            Gestion: </br>
+            Semestre: </br>
+         </td>";
+    echo "<td>
+            Departamento: </br>
+            Docentes: $nombre_completo</br>
+         </td>";
+    echo "</tr>";
+    echo "</table>";
+    echo "</br>"; 
+    
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Contenido Analitico</th>";  
+    echo "</tr>";
+    echo "</table>";
+    echo "</br>";
+    echo "<table>";  
+    echo "<tr>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($contenido)){   
+      echo "<tr>";  
+      echo "<td>$row[0]</td>";
+      echo "</tr>";
+      echo "<tr>";  
+      echo "<td>$row[1]</td>";
+      echo "</tr>";
+
+    }  
+    echo "</table>";
+    echo "</br>";
+
+    echo "<table>";  
+    echo "<tr>";  
+    echo "<th>Bibliografia</th>";  
+    echo "</tr>";
+    echo "</table>";
+    echo "<table>";  
+    echo "<tr>";  
+    echo "</tr>";
+    while ($row = mysql_fetch_row($bibliografia)){   
+      echo "<tr>";  
+      echo "<td>$row[0]</td>";
+      echo "</tr>";
+
+    }  
+    echo "</table>";
+
+  ?>
+
+  </form>
+ 
+  <?php
+
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
   require('coneccion.php');
         
     if(isset($_POST['btn_Plan_Global'])){

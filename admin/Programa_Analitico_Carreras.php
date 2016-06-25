@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
 </head>
 <body>
+<<<<<<< HEAD
    <header id="main-header">
     <a id="logo-header" href="#">
       <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
@@ -28,6 +29,10 @@
     </nav><!-- / nav -->
   </header><!-- / #main-header -->
    <hr></hr>
+=======
+  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
+  <hr></hr>
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   </header>
   
@@ -65,7 +70,11 @@
 <article id="cuerpo">
   <form method="post" action="Programa_Analitico_Materias.php">
   <?php
+<<<<<<< HEAD
     $enlace = mysql_connect('localhost','root','');
+=======
+    $enlace = mysql_connect('localhost','root','root');
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
     if (!$enlace) {
       die('no pudo conectarse: '.mysql_error());
     }

@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="Styles_funciones.css">
 </head>
 <body>
+<<<<<<< HEAD
   <header id="main-header">
     <a id="logo-header" href="#">
       <span class="site-name">PLANES GLOBALES Y PROGRAMAS ANALITICOS</span>
@@ -28,6 +29,10 @@
     </nav><!-- / nav -->
   </header><!-- / #main-header -->
    <hr></hr>
+=======
+  <header><center><h2 id="titulo_Principal">Sistema de Planes Globales y Programas Analiticos</h2></center>
+  <hr></hr>
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
    <DIV ALIGN=RIGHT><a class="redireccion_salir" href="salir.php">salir</a></DIV>
   </header>
   
@@ -65,18 +70,27 @@
 <article id="cuerpo">
   <form method="post" action="Programa_Analitico_Contenido.php">
   <?php
+<<<<<<< HEAD
     $enlace = mysql_connect('localhost','root','');
+=======
+    $enlace = mysql_connect('localhost','root','root');
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
     if (!$enlace) {
       die('no pudo conectarse: '.mysql_error());
     }
     mysql_select_db('planglobal',$enlace);
     $carre = $_POST['carre'];
+<<<<<<< HEAD
     $resultado = mysql_query("SELECT * FROM materia, carrera WHERE materia.ID_Carrera = carrera.ID_Carrera AND carrera.nombre_carrera='$carre'",$enlace);
+=======
+    $resultado = mysql_query("SELECT Nombre_Materia FROM materia, carrera WHERE materia.ID_Carrera = carrera.ID_Carrera AND carrera.nombre_carrera='$carre'",$enlace);
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
     echo "<table>";  
     echo "<tr>";  
     echo "<th>Materias</th>";  
     echo "</tr>";
     while ($row = mysql_fetch_row($resultado)){   
+<<<<<<< HEAD
       $materia = $row[1];
        $ID_Materia=$row[0];
       echo "<tr>";  
@@ -85,6 +99,13 @@
                 <td><input type='submit' name = 'mate' value='$materia'></td>";
 
       echo "</tr></form>";  
+=======
+      $materia = $row[0];
+      echo "<tr>";  
+      echo "<td><input type='submit' name = 'mate' value='$materia'/></td>";
+
+      echo "</tr>";  
+>>>>>>> d34ac738f60d8834e677bf1941d93c2409867351
     }  
     echo "</table>";
   ?>
